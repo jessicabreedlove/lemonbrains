@@ -11,8 +11,8 @@ const bodyParser = require( 'body-parser' ); // parse req object https://www.npm
 const apiErrorHandler = require( './errors/handler' ); // error handling
 
 // TODO: implement both of these ...
-// const Joi = require( 'joi' ); // data validation https://www.npmjs.com/package/joi
-// const { auth } = require( 'express-openid-connect' ); // OAuth 2.0 https://www.npmjs.com/package/express-openid-connect
+const Joi = require( 'joi' ); // data validation https://www.npmjs.com/package/joi
+const { auth } = require( 'express-openid-connect' ); // OAuth 2.0 https://www.npmjs.com/package/express-openid-connect
 
 // enable use of environment variables
 require( 'dotenv' ).config();
