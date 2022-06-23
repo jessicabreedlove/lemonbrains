@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LemonBrains</title>
+    <link  type="text/css" rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/script.js"></script>
+</head>
+<body>
+    <!-- 
+        Settings
+    -->
+    <h1><a href="/">Home</a> | User Settings</h1>
+    TODO: this page should post any updates a user wants to make to their stand
+    <form action="/users/put" method="POST">
+        <label for="authid">Auth id: 
+            <input id="authid" name="authid" type="input" value="<%= result.authid %>"> (something returned by Auth0, hidden)
+        </label>
+        <br>
+        <!--Should users be allowed to change their stand name?-->
+        <!--label for="stand">Stand name:
+            <input id="stand" name="stand" type="input" value="<%= stand %>">
+        </label>
+        <br-->
+        <label for="day">Length of day in minutes:
+            <input id="day" name="dayLength" type="number" min="0" max="10" value="<%= result.dayLength %>" (0 = infinite)
+        </label>
+        <br>
+        <label for="add">
+            <input id="add" name="add" type="checkbox" 
+            <% if (result.add == 'on') { %>
+                checked
+            <% } %>
+            > Addition
+        </label>
+        <br>
+        <label for="sub">
+            <input id="sub" name="sub" type="checkbox"
+            <% if (result.sub == 'on') { %>
+                checked
+            <% } %>
+            > Subtraction
+        </label>
+        <br>
+        <label for="mul">
+            <input id="mul" name="mul" type="checkbox"
+            <% if (result.mul == 'on') { %>
+                checked
+            <% } %>
+            > Multiplication
+        </label>
+        <br>
+        <label for="div">
+            <input id="div" name="div" type="checkbox"
+            <% if (result.div == 'on') { %>
+                checked
+            <% } %>
+            > Division
+        </label>        
+        <br>
+        <input type="Submit" value="update user settings">
+    </form>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup | LemonBrains</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/script.js"></script>
+</head>
+<body>
+    <!-- 
+        Stand setup page
+        Enter information to create your first stand
+    -->
+    <h1><a href="/">Home</a> | Setup your new Stand ...</h1>
+    TODO: this page should post any required information to create a new stand
+    <form action="/stands" method="POST">
+        <label for="authid">Auth id: 
+            <input id="authid" name="authid" type="input" value="1"> (something returned by Auth0, hidden)
+        </label>
+        <br>
+        <label for="stand">Stand name:
+            <input id="stand" name="stand" type="input" value="Gruffalo Tea">
+        </label>
+        <br>
+        <label for="day">Length of day in minutes:
+            <input id="day" name="dayLength" type="number" min="0" max="10" value="1"> (0 = infinite)
+        </label>
+        <br>
+        <label for="add">
+            <input id="add" name="add" type="checkbox" checked> Addition
+        </label>
+        <br>
+        <label for="sub">
+            <input id="sub" name="sub" type="checkbox" checked> Subtraction
+        </label>
+        <br>
+        <label for="mul">
+            <input id="mul" name="mul" type="checkbox"> Multiplication
+        </label>
+        <br>
+        <label for="div">
+            <input id="div" name="div" type="checkbox"> Division
+        </label>        
+        <br>
+        <input type="Submit" value="Create stand">
+    </form>
+</body>
+</html>

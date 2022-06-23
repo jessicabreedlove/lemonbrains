@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | LemonBrains</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/script.js"></script>
+</head>
+<body>
+    <!-- 
+        Home page, this is where it all begins ...
+        before logging in, display a leader board that shows stand name, days played, earnings
+        This page needs a login button that points to login
+    -->
+    
+    <h2>Example: included backend content = <%- test %></h2>
+    
+    <% if (user) { %>
+        <h2>Example: included backend object content wrapped in (if) <%= user.name %></h2>
+    <% } %>
+
+    <h1>Leader board</h1>
+    
+    TODO: loop entries in leader board
+    <% if( leaders ) { %>
+        <ul>
+        <% leaders.forEach(function(user){ %>
+            <li>authid=
+            <%- user.board.authid; %>
+            day=
+            <%- user.board.day; %>
+            earnings=
+            <%- user.board.earnings; %>
+            </li>
+        <% }); %>
+        </ul>
+    <% } %>
+
+    TODO: add login button / links below are used for testing
+    <br><br>
+    <a href="stands">No Auth ... Login and redirect to setup</a>
+    <br><br>
+    <a href="stands/1">Has Auth ... go to stand</a>    
+</body>
+</html>

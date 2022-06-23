@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LemonBrains</title>
+    <link  type="text/css" rel="stylesheet" href="/css/<%= css %>.css">
+    <script type="text/javascript" src="/js/script.js"></script>
+</head>
+<body>
+    <!-- 
+        Stand
+        Page needs background css, button to begin game
+        When clicked, game will run with frontend javascript, after each "day", earnings will be sent to the backend
+        PUT /:id/day/:day/brains/:brains'  ...  
+        TODO: Is stand id needed or is this added to the req by OAuth ?
+        TODO: How can I send a PUT from the frontend ?
+    -->
+    <h1><a href="/">Home</a> | Stand</h1>
+    TODO: display stand and button to begin game.  Current page simulates game over and posts scores to the backend
+    <form action="/stands/put" method="POST">
+        <h2><%= stand %> | day: <%= day %> | earnings: <%= earnings %></h2>
+        <label for="authid">authid:
+            <input id="authid" name="authid" type="input" value="<%= authid %>">
+        </label>
+        Day is incremented on each game over, earnings are calculated based on number and type of questions answered correctly
+        <br>
+        <h2>Addition</h2>
+        <label for="addCount">Count:
+            <input id="addCount" name="addCount" type="input" value="2">
+        </label>
+        <br>
+        <label for="addCorrect">Correct:
+            <input id="addCorrect" name="addCorrect" type="input" value="2">
+        </label>
+        <br>
+        <h2>Subtraction</h2>
+        <label for="subCount">Count:
+            <input id="subCount" name="subCount" type="input" value="3">
+        </label>
+        <br>
+        <label for="subCorrect">Correct:
+            <input id="subCorrect" name="subCorrect" type="input" value="1">
+        </label>
+        <br>
+        <h2>Multiplication</h2>
+        <label for="mulCount">Count:
+            <input id="mulCount" name="mulCount" type="input" value="5">
+        </label>
+        <br>
+        <label for="mulCorrect">Correct:
+            <input id="mulCorrect" name="mulCorrect" type="input" value="5">
+        </label>
+        <br>
+        <h2>Division</h2>
+        <label for="divCount">Count:
+            <input id="divCount" name="divCount" type="input" value="">
+        </label>
+        <br>
+        <label for="divCorrect">Correct:
+            <input id="divCorrect" name="divCorrect" type="input" value="">
+        </label>
+        <br><br>
+        <input type="hidden" name="day" value="<%= day %>">
+        <input type="Submit" value="Game over, send updates to server">
+        <br><br>
+        <a href="/users/1">Go to user settings (change number in browser to access a different user)</a>
+        <% if (admin) { %>
+            <br><br><a href="/admin">Go to admin page</a>
+        <% } %>
+    </form>
+</body>
+</html>

@@ -1,0 +1,322 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Lemonbrains API",
+    "description": "Amazing fusion of a lemonade stand and a zombie apocalypse",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/role/{id}": {
+      "put": {
+        "description": "Set user admin role to be true or false",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/delete/{id}": {
+      "delete": {
+        "description": "Delete user, stand, and related statistics ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "Show user settings",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/users/put": {
+      "post": {
+        "description": "Update user settings",
+        "parameters": [
+          {
+            "name": "dayLength",
+            "description": "Length of game play in minutes 1-10, 0=infinite",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "add",
+            "description": "Generate questions with addition",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "sub",
+            "description": "Generate questions with subtraction",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "mul",
+            "description": "Generate questions with multiplication",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "div",
+            "description": "Generate questions with division",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "authid": {
+                  "example": "any"
+                },
+                "dayLength": {
+                  "example": "any"
+                },
+                "add": {
+                  "example": "any"
+                },
+                "sub": {
+                  "example": "any"
+                },
+                "mul": {
+                  "example": "any"
+                },
+                "div": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/stands/": {
+      "get": {
+        "description": "Get stand information",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "description": "Create stand",
+        "parameters": [
+          {
+            "name": "stand",
+            "description": "Name of stand",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "day",
+            "description": "Number of days played",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "earnings",
+            "description": "Earnings to date",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "authid": {
+                  "example": "any"
+                },
+                "stand": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/stands/{id}": {
+      "get": {
+        "description": "Get stand information",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/stands/put": {
+      "post": {
+        "description": "Update stand information",
+        "parameters": [
+          {
+            "name": "stand",
+            "description": "Name of stand",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "day",
+            "description": "Number of days played",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "earnings",
+            "description": "Earnings to date",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "addCount",
+            "description": "Number of addtion questions asked",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "addCorrect",
+            "description": "Number of addtion questions answered correctly",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "subCount",
+            "description": "Number of subtration questions asked",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "subCorrect",
+            "description": "Number of subtraction questions answered correctly",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "mulCount",
+            "description": "Number of multiplication questions asked",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "mulCorrect",
+            "description": "Number of multiplication questions answered correctly",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "divCount",
+            "description": "Number of division questions asked",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "divCorrect",
+            "description": "Number of division questions answered correctly",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "authid": {
+                  "example": "any"
+                },
+                "addCount": {
+                  "example": "any"
+                },
+                "addCorrect": {
+                  "example": "any"
+                },
+                "subCount": {
+                  "example": "any"
+                },
+                "subCorrect": {
+                  "example": "any"
+                },
+                "mulCount": {
+                  "example": "any"
+                },
+                "mulCorrect": {
+                  "example": "any"
+                },
+                "divCount": {
+                  "example": "any"
+                },
+                "divCorrect": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api-docs/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    }
+  },
+  "version": "1.0.0"
+}

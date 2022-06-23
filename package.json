@@ -1,28 +1,36 @@
 {
-  "name": "lemonbrains",
+  "name": "lemonbrain",
   "version": "1.0.0",
   "description": "Awesome brain child of the best group in CSE 341",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index",
-    "start": "node index.js",
-    "swagger": "node swagger.js"
+    "test": "test",
+    "swagger": "node swagger.js",
+    "start": "nodemon index.js"
   },
+  "keywords": [
+    "zombies",
+    "math",
+    "lemonade"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jessicabreedlove/lemonbrains.git"
   },
-  "author": "Jessica Reece, Jaden Mounteer, Aston Cook, and JC Cox",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/jessicabreedlove/lemonbrains/issues"
   },
-  "homepage": "https://github.com/jessicabreedlove/lemonbrains#readme",
+  "author": "Jessica Reece, Jaden Mounteer, Aston Cook, and JC Cox",
+  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
     "express": "^4.18.1",
-    "swagger-autogen": "^2.21.3",
+    "mongodb": "^4.7.0",
     "swagger-ui-express": "^4.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16",
+    "swagger-autogen": "^2.21.3"
   }
 }
