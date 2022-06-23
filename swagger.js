@@ -16,7 +16,7 @@ const doc = {
         description: 'Amazing fusion of a lemonade stand and a zombie apocalypse',
     },
     version: '1.0.0',
-    /*
+    /* 
     securityDefinitions: {
         TODO: adding content here is needed to get the Swagger padlock to work, waiting for feedback from Brother Lyon
         https://auth0.com/docs/get-started/authentication-and-authorization-flow/add-login-auth-code-flow
@@ -25,10 +25,10 @@ const doc = {
         https://swagger.io/docs/specification/authentication/
     },
     */
-    host: 'localhost:3000',
-    schemes: ['http'],
-    //host: 'lemonbrains.herokuapp.com',
-    //schemes: ['https'],
+    //host: 'localhost:3000',
+    //schemes: ['http'],
+    host: 'lemonbrains.herokuapp.com',
+    schemes: ['https'],
 };
  
 const outputFile = './swagger.json'; // file to create
