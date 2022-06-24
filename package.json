@@ -4,7 +4,7 @@
   "description": "Awesome brain child of the best group in CSE 341",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "jest",
     "swagger": "node swagger.js",
     "start": "nodemon index.js"
   },
@@ -27,6 +27,7 @@
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "express-openid-connect": "^2.7.2",
+    "jest": "^28.1.1",
     "joi": "^17.6.0",
     "mongodb": "^4.7.0",
     "swagger-ui-express": "^4.4.0"
