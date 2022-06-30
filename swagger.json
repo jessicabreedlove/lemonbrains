@@ -13,9 +13,16 @@
   "paths": {
     "/": {
       "get": {
-        "description": "",
+        "description": "Get stand information",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "400": {
+            "description": "Unable to match authid"
+          },
+          "404": {
+            "description": "Stand ID could not be found"
+          }
+        }
       }
     },
     "/admin/": {
@@ -27,7 +34,7 @@
     },
     "/admin/role/{id}": {
       "put": {
-        "description": "Set user admin role to be true or false",
+        "description": "Toggle user admin role to be true or false",
         "parameters": [
           {
             "name": "id",
@@ -37,8 +44,24 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "404": {
+            "description": "Unable to find user"
+          }
+        }
+      },
+      "get": {
+        "description": "Toggle user admin role to be true or false",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Unable to find user"
           }
         }
       }
@@ -55,15 +78,13 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "404": {
+            "description": "Unable to find user"
           }
         }
-      }
-    },
-    "/users/{id}": {
+      },
       "get": {
-        "description": "Show user settings",
+        "description": "Delete user, stand, and related statistics ",
         "parameters": [
           {
             "name": "id",
@@ -72,6 +93,17 @@
             "type": "string"
           }
         ],
+        "responses": {
+          "404": {
+            "description": "Unable to find user"
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "description": "Show user settings",
+        "parameters": [],
         "responses": {}
       }
     },
@@ -115,9 +147,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "authid": {
-                  "example": "any"
-                },
                 "dayLength": {
                   "example": "any"
                 },
@@ -180,17 +209,24 @@
             "schema": {
               "type": "object",
               "properties": {
-                "authid": {
+                "stand": {
                   "example": "any"
                 },
-                "stand": {
+                "authid": {
                   "example": "any"
                 }
               }
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Something went wrong creating the stand"
+          }
+        }
       }
     },
     "/stands/{id}": {
@@ -290,9 +326,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "authid": {
-                  "example": "any"
-                },
                 "addCount": {
                   "example": "any"
                 },
@@ -321,7 +354,14 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Something went wrong trying to update the stand"
+          }
+        }
       }
     },
     "/api-docs/": {
