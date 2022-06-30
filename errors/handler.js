@@ -12,6 +12,7 @@ function apiErrorHandler( err, req, res, next ) {
 
     if ( err instanceof ApiError ) {
         // res.status( err.code ).json( err.message );
+        console.log( "OIDC code = ", req.oidc.user.sub );
         res.render( 'error', { code: err.code, message: err.message });
         return;
     }
