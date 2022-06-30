@@ -24,7 +24,7 @@
     <h1>Leader board</h1>
     
     TODO: loop entries in leader board
-    <% if( leaders ) { %>
+    <% if( leaders && leaders.length > 0 ) { %>
         <ul>
         <% leaders.forEach(function(user){ %>
             <li>authid=
