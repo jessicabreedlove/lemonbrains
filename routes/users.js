@@ -14,7 +14,7 @@ const userController = require( '../controllers/users' );
 
 // TODO: protect routes with oauth
 // GET user
-router.get( '/:id', userController.getUser );
+router.get( '/', userController.getUser );
 
 // POST user
 router.post( '/put', userController.updateUser );

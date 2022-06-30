@@ -1,7 +1,7 @@
 /***************************************
  * Main
  * 
- * File run when server starts up
+ * This file is run when server starts up
  * 
  */
 
@@ -22,8 +22,22 @@ const port = process.env.PORT || 3000;
 const app = express();
 app.set( 'view engine', 'ejs' ); // set template engine https://www.npmjs.com/package/ejs
 
-// load routes ...
+
+// set up app ...
 app
+    // oauth
+    // https://www.jamesqquick.com/blog/the-easiest-way-to-add-node-js-user-authentication
+    // https://www.youtube.com/watch?v=w1zvS9-k7EU
+    // the library needs issuerBaseURL, baseURL, clientID and secret to request and accept authentication
+    .use( auth({
+        issuerBaseURL: process.env.ISSUER_BASE_URL,
+        baseURL: process.env.BASE_URL,
+        clientID: process.env.CLIENT_ID,
+        secret: process.env.SECRET,
+        authRequired: false,
+        auth0Logout: true,
+        //idpLogout: true,
+    }) )
     // https://expressjs.com/en/resources/middleware/body-parser.html
     // parse application/x-www-form-urlencoded
     .use( bodyParser.urlencoded({ extended: false })) // needed to get data from req.body

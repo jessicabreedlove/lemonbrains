@@ -28,20 +28,22 @@
         <ul>
         <% leaders.forEach(function(user){ %>
             <li>authid=
-            <%- user.board.authid; %>
+            <%- user.authid; %>
             day=
-            <%- user.board.day; %>
+            <%- user.day; %>
             earnings=
-            <%- user.board.earnings; %>
+            <%- user.earnings; %>
             </li>
         <% }); %>
         </ul>
-    <% } %>
+    <% } %> 
 
     TODO: add login button / links below are used for testing
     <br><br>
     <a href="stands">No Auth ... Login and redirect to setup</a>
     <br><br>
-    <a href="stands/1">Has Auth ... go to stand</a>    
+    <a href="stands/1">Has Auth ... go to stand</a>
+    <br><br>
+    <a href="login">Login</a>  
 </body>
 </html>

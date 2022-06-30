@@ -19,21 +19,20 @@ const leaderController = require( '../controllers/leader' );
 const getStand = async ( req, res, next ) => {
     /*
         #swagger.description = 'Get stand information';
+        #swagger.responses[400] = { description: 'Unable to match authid' }
+        #swagger.responses[404] = { description: 'Stand ID could not be found' }
     */
-    console.log( "Debug: getStand() in stands controller" );
+    console.log( "Debug: getStand() in stands controller, authid=", req.oidc.user.sub );
 
-    const authid = req.params.id; // TODO: need some way to identify user based on authentication
+    const authid = req.oidc.user.sub; // identify user based authid
 
-    console.log( authid );
-
-    if ( authid > 0 ) {
+    if ( authid ) {
        //res.send( `getStand() called: ${id} redirect to stand.html with name, location, days, earnings` );
 
         // use try/catch for synchronous request
         try {
             // use then/catch for asynchronous code
-            //await mongodb.getDb().db().collection( 'stands' ).find( _id: objectId ).toArray()
-            //await mongodb.getDb().db().collection( 'stands' ).findOne( { authid: authid }, { stand: 1, day: 1, earnings: 1 })
+
             // JOIN two tables https://hevodata.com/learn/mongodb-join-two-collections/
             await mongodb.getDb().db().collection( 'stands' ).aggregate([
                 {
@@ -42,10 +41,10 @@ const getStand = async ( req, res, next ) => {
                     }
                 },
                 { $lookup: {
-                    from: 'users',
+                    from: 'users', // second collection
                     localField: 'authid',
                     foreignField: 'authid',
-                    as: 'userstand'
+                    as: 'userstand' // new collection
                 }}
             ])
             .toArray(function( err, result ) {
@@ -55,7 +54,8 @@ const getStand = async ( req, res, next ) => {
                 else {
                     if ( result.length > 0 ) {
                         console.log( result[0].stand, result[0].userstand[0].admin );
-                        //console.log( result[0].stand, result[0].userstand );
+
+                        // TODO: css should be determined based on 
                         const css = getLocation( result[0].earnings );
                         res.render( 'stand', { css: css, authid: authid, stand: result[0].stand, day: result[0].day, earnings: result[0].earnings, admin: result[0].userstand[0].admin });
                     }
@@ -73,7 +73,7 @@ const getStand = async ( req, res, next ) => {
     }
     else {
         // redirect to set up page
-        res.render( 'setup' );
+        res.render( 'setup', { authid: authid } );
     }
 
     // next can be returned or called but it can´t be called after a function like redirect(), render(), send(), sendFile(), json()
@@ -87,15 +87,18 @@ const getStand = async ( req, res, next ) => {
 const createStand = async ( req, res ) => {
     /*
         #swagger.description = 'Create stand';
-        #swagger.parameters['stand'] = { description: 'Name of stand' };
-        #swagger.parameters['day'] = { description: 'Number of days played' };
-        #swagger.parameters['earnings'] = { description: 'Earnings to date' };
+        #swagger.parameters['stand'] = { description: 'Name of stand' }
+        #swagger.parameters['day'] = { description: 'Number of days played' }
+        #swagger.parameters['earnings'] = { description: 'Earnings to date' }
+        #swagger.responses[200] = { description: 'OK' }
+        #swagger.responses[500] = { description: 'Something went wrong creating the stand' }
     */
         console.log( "Debug: createStand() in stands controller" );
 
         // TODO
         // 1. get auth info from request
-        const authid = req.body.authid;
+        // const authid = req.body.authid;
+        const authid = req.oidc.user.sub;
 
         // 2. TODO create user ... call createUser()
         await usersController.createUser( req ); 
@@ -143,7 +146,8 @@ const createStand = async ( req, res ) => {
 
                     // redirect to new stand
                     // ... on click, matching stand should be found and displayed
-                    res.redirect( 200, `/stands/${authid}` );
+                    // res.redirect( 200, `/stands/${authid}` );
+                    getStand( req, res, next );
                 }
                 else {
                     next( ApiError.internalServerError( "An error occured after creating the stand" ));
@@ -158,7 +162,7 @@ const createStand = async ( req, res ) => {
 /***************************
 // POST update stand
 ****************************/
-const updateStand = async ( req, res ) => {
+const updateStand = async ( req, res, next ) => {
     /*
         #swagger.description = 'Update stand information';
         #swagger.parameters['stand'] = { description: 'Name of stand' };
@@ -172,13 +176,17 @@ const updateStand = async ( req, res ) => {
         #swagger.parameters['mulCorrect'] = { description: 'Number of multiplication questions answered correctly' };
         #swagger.parameters['divCount'] = { description: 'Number of division questions asked' };
         #swagger.parameters['divCorrect'] = { description: 'Number of division questions answered correctly' };
+        #swagger.responses[200] = { description: 'OK' }
+        #swagger.responses[500] = { description: 'Something went wrong trying to update the stand' }
+
     */
         console.log( "Debug: updateStand() in stands controller" );
         // res.send( "updateStand() called" ); 
 
         // 1. get auth info from request
         // 2. get op and earnings from request
-        const { authid, addCount, addCorrect, subCount, subCorrect, mulCount, mulCorrect, divCount, divCorrect } = req.body;
+        const authid = req.oidc.user.sub;
+        const { addCount, addCorrect, subCount, subCorrect, mulCount, mulCorrect, divCount, divCorrect } = req.body;
         console.log( `authid=${authid}, addCount=${addCount}, addCorrect=${addCorrect}, subCount=${subCount}, subCorrect=${subCorrect}, mulCount=${mulCount}, mulCorrect=${mulCorrect}, divCount=${divCount}, divCorrect=${divCorrect} ` );
 
         // 3. update stand with new day and earning information
@@ -267,11 +275,11 @@ const updateStand = async ( req, res ) => {
                     earnings: totalEarnings
                 }};
 
-                console.log(`Total=${earnings} + ${result.earnings} == ${totalEarnings}`);
+                console.log( `Total=${earnings} + ${result.earnings} == ${totalEarnings}` );
 
                 console.log( "stands collection updateOne", update );
                 mongodb.getDb().db().collection( 'stands' ).updateOne( { authid: authid }, update, function( err, res ) {
-                    if (err) {
+                    if ( err ) {
                         console.log( "0 document updated" );
                         throw err;
                     }
@@ -280,17 +288,16 @@ const updateStand = async ( req, res ) => {
                     }
                 });
 
-
                 // 5: update leader board
                 await leaderController.updateBoard( authid, day, totalEarnings );
-
             })
             .catch ( err => {
                 console.log( "Fatal Error =", err);
             });
         
         // 6. redirect to stand
-        res.redirect( 200, `/stands/${authid}` );
+        // res.redirect( 200, `/stands/${authid}` );
+        getStand( req, res, next );
 };
 
 /***************************

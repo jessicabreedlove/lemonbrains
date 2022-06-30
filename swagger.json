@@ -5,10 +5,10 @@
     "description": "Amazing fusion of a lemonade stand and a zombie apocalypse",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "lemonbrains.herokuapp.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/": {
@@ -144,7 +144,14 @@
       "get": {
         "description": "Get stand information",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "400": {
+            "description": "Unable to match authid"
+          },
+          "404": {
+            "description": "Stand ID could not be found"
+          }
+        }
       },
       "post": {
         "description": "Create stand",
@@ -197,7 +204,14 @@
             "type": "string"
           }
         ],
-        "responses": {}
+        "responses": {
+          "400": {
+            "description": "Unable to match authid"
+          },
+          "404": {
+            "description": "Stand ID could not be found"
+          }
+        }
       }
     },
     "/stands/put": {

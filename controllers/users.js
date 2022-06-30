@@ -19,7 +19,8 @@ const getUser = async ( req, res ) => {
     */
     console.log( "Debug: getUser() in users controller" );
 
-    const authid = req.params.id; // TODO: get this in a post request from body ...
+    // const authid = req.params.id; // TODO: get this in a post request from body ...
+    const authid = req.oidc.user.sub;
 
     await mongodb.getDb().db().collection( 'users' ).findOne( { authid: authid })
         .then( async result => {
@@ -27,7 +28,7 @@ const getUser = async ( req, res ) => {
             res.render( 'settings', { stand: "taco", result: result } );
         })
         .catch ( err => {
-            console.log( "Fatal Error =", err);
+            console.log( "Fatal Error =", err );
         });
 };
 
@@ -45,7 +46,8 @@ const createUser = async ( req ) => {
     */
     console.log( "Debug: createUser() in users controller" );
 
-    const { authid, dayLength, add, sub, mul, div } = req.body;
+    const authid = req.oidc.user.sub;
+    const { dayLength, add, sub, mul, div } = req.body;
 
     const user = {
         authid: authid,
@@ -64,7 +66,7 @@ const createUser = async ( req ) => {
 /***************************
 // Update user
 ****************************/
-const updateUser = async ( req, res ) => {
+const updateUser = async ( req, res, next ) => {
     /*
         #swagger.description = 'Update user settings';
         #swagger.parameters['dayLength'] = { description: 'Length of game play in minutes 1-10, 0=infinite' };
@@ -75,7 +77,8 @@ const updateUser = async ( req, res ) => {
     */
     console.log( "Debug: updateUser() in users controller", req );
 
-    const { authid, dayLength, add, sub, mul, div } = req.body;
+    const authid = req.oidc.user.sub;
+    const { dayLength, add, sub, mul, div } = req.body;
 
     const update = { $set: {
         dayLength: dayLength,
@@ -90,7 +93,7 @@ const updateUser = async ( req, res ) => {
             console.log( "update user settings: ", result );
 
             // all good redirect to user page
-            res.redirect( 200, `/stands/${authid}`);
+            res.redirect( "/stands/" ); // using OK causes intermediate page to show and requires an additional click
         })
         .catch ( err => {
             console.log( "Fatal Error =", err );

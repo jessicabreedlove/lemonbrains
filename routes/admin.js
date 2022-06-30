@@ -15,9 +15,10 @@ const adminController = require( '../controllers/admin' );
 /***************************
 // default (admin page)
 ****************************/
-router.get( '/', (req, res) => {
+router.get( '/', ( req, res ) => {
     console.log( "GET admin: Nom, nom, nom" ); 
-    res.render( 'admin', { test: "TEST" }); // example of how you can pass values to the frontend
+
+    adminController.isAdmin( req, res );
 });
 
 /*
@@ -31,10 +32,12 @@ router.get( '/', (req, res) => {
 // POST create new location
 // router.post( '/location/:location/css/:css', adminController.createLocation );
 
-// TODO: create endpoint to modify user role
+// endpoint to toggle admin role
 router.put( '/role/:id', adminController.updateRole );
+router.get( '/role/:id', adminController.updateRole );
 
-// TODO: create endpoint to delete user (user, stand, statistics, )
+// endpoint to delete user (user, stand, statistics, )
 router.delete( '/delete/:id', adminController.deleteUser );
+router.get( '/delete/:id', adminController.deleteUser );
 
 module.exports = router; // make endpoints public

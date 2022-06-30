@@ -13,7 +13,6 @@
         Admin page
     -->
     <h1>Admin</h1>
-    <h2>Example: included backend content = <%- test %></h2>
     TODO: This page should have options to view, add, update, delete locations
     <!--
         TODO: BUILD ADMIN INTERFACE
@@ -25,6 +24,15 @@
         4. Update existing locations
     -->
 
-    <a href="/api-docs">Swagger documentation</a>    
+    <% if (locals.role && role) { %>
+        <h2>The admin role for <%= result.authid %> has been changed to: <%= admin %></h2>
+    <% } %>
+
+
+    <% if (locals.delete) { %>
+        <h2>The user with authid <%= result.authid %> has been deleted</h2>
+    <% } %>
+
+    <a href="/api-docs">Swagger documentation</a>
 </body>
 </html>

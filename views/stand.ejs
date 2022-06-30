@@ -65,10 +65,14 @@
         <input type="hidden" name="day" value="<%= day %>">
         <input type="Submit" value="Game over, send updates to server">
         <br><br>
-        <a href="/users/1">Go to user settings (change number in browser to access a different user)</a>
+        <a href="/users/">Go to user settings (change number in browser to access a different user)</a>
+
         <% if (admin) { %>
             <br><br><a href="/admin">Go to admin page</a>
         <% } %>
+
+        <br><br>
+        <a href="/logout">Logout</a>  
     </form>
 </body>
 </html>
