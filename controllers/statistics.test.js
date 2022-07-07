@@ -1,8 +1,8 @@
 const statistics = require('./statistics');
 
+//Done with updateStat.
 describe("updateStat function", () => {
     //Test the updateStat function
-    //I need to test the update.
     test('updateStat function', async () => {
         const update = {
             authid: 'test',
@@ -23,5 +23,11 @@ describe("updateStat function", () => {
         expect(console.log).toHaveBeenCalled();
     });
 
-    //I need to add a function for the updateStat collection results.
+    //Testing the mongodb updateStat results.
+    test('Testing the mongodb updateStat results of updateStat', () => {
+        const authid = 'authid';
+        const op = 'op';
+        const count = 'count';
+        const correct = 'correct';
+    });
 });

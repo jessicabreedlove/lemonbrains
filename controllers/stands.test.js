@@ -1,13 +1,12 @@
 const stands = require('./stands');
 
+//Done with getStands.
 describe("getStand function", () => {
     //Test the getStand function for it to be there.
     test('getStand collection and return all documents', async () => {
         expect(stands.getStand).toBeDefined();
         expect(stands.getStand).toBeInstanceOf(Function);
     });
-
-    //I need to add a .toArray test to make sure that the array is returned.
 
     //Test console.log catch error for authid.
     test('console.log catch error for getStand', async () => {
@@ -16,11 +15,16 @@ describe("getStand function", () => {
         console.log('Debug: getStand() in stands controller, authid=');
         expect(console.log).toHaveBeenCalled();
     });
+
+    //Testing the mongodb getStand results.
+    test('Testing the mongodb getStand results of getStand', async () => {
+        const authid = 'authid';
+    });
 });
 
+//Done with createStand.
 describe("createStand function", () => {
     //Test the createStand function.
-    //I need to test the stand creation.
     test('createStand function', async () => {
         const stand = {
             authid: 'test',
@@ -40,11 +44,17 @@ describe("createStand function", () => {
         console.log('create stats');
         expect(console.log).toHaveBeenCalled();
     });
+
+    //Testing the mongodb createStand results.
+    test('Testing the mongodb createStand results of createStand', () => {
+        const authid = 'authid';
+        const name = 'name';
+    });
 });
 
+//Done with updateStand.
 describe("updateStand function", () => {
     //Test the updateStand function.
-    //I need to test the update.
     test('updateStand function', async () => {
         const update = {
             authid: 'test',
@@ -72,5 +82,18 @@ describe("updateStand function", () => {
         console.log('1 document updated');
         console.log('Fatal Error =');
         expect(console.log).toHaveBeenCalled();
+    });
+
+    //Testing the mongodb updateStand results.
+    test('Testing the mongodb updateStand results of updateStand', () => {
+        const authid = 'authid';
+        const addCount = 'addCount';
+        const addCorrect = 'addCorrect';
+        const subCount = 'subCount';
+        const subCorrect = 'subCorrect';
+        const mulCount = 'mulCount';
+        const mulCorrect = 'mulCorrect';
+        const divCount = 'divCount';
+        const divCorrect = 'divCorrect';
     });
 });

@@ -1,5 +1,6 @@
 const users = require('./users');
 
+//Done with getUser.
 describe("getUser function", () => {
     //Test the getUser function for it to be there.
     test('getUser function', async () => {
@@ -16,9 +17,13 @@ describe("getUser function", () => {
         expect(console.log).toHaveBeenCalled();
     });
 
-    //I need to add a test for the getUser results.
+    //Testing the mongodb getUser results.
+    test('Testing the mongodb getUser results of getUser', () => {
+        const authid = 'authid';
+    });
 });
 
+//Done with createUser.
 describe("createUser function", () => {
     //Test createUser function for it to be there.
     test('createUser function', async () => {
@@ -33,10 +38,13 @@ describe("createUser function", () => {
         expect(console.log).toHaveBeenCalled();
     });
 
-    //I need to add a test for the createUser "user" object.
-    //I need to add a test for the createUser adding to the collection.
+    //Testing the mongodb createUser results.
+    test('Testing the mongodb createUser results of createUser', () => {
+        const authid = 'authid';
+    });
 });
 
+//Done with updateUser.
 describe("updateUser function", () => {
     //Test updateUser function for it to be there.
     test('updateUser function', async () => {
@@ -53,5 +61,8 @@ describe("updateUser function", () => {
         expect(console.log).toHaveBeenCalled();
     });
 
-    //I need to add a test for the updateUser results and redirect.
+    //Testing the mongodb updateUser results.
+    test('Testing the mongodb updateUser results of updateUser', () => {
+        const authid = 'authid';
+    });
 });

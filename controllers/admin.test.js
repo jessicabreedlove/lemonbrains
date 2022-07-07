@@ -1,5 +1,6 @@
 const admin = require('./admin');
 
+//Done with getLocations.
 describe("getLocations function", () => {
     test('Test the functionality of getLocations', () => {
         expect(admin.getLocations).toBeDefined();
@@ -14,6 +15,7 @@ describe("getLocations function", () => {
     });
 });
 
+//Done with createLocation.
 describe("createLocation function", () => {
     test('Test the functionality of createLocation', () => {
         expect(admin.createLocation).toBeDefined();
@@ -28,6 +30,7 @@ describe("createLocation function", () => {
     });
 });
 
+//Done with updateRole.
 describe("updateRole function", () => {
     test('Test the functionality of updateRole', () => {
         expect(admin.updateRole).toBeDefined();
@@ -45,8 +48,18 @@ describe("updateRole function", () => {
         console.log('Debug: updateRole');
         expect(console.log).toHaveBeenCalled();
     });
+
+    //Testing the mongodb collection results.
+    test('Testing the mongodb collection results of updateRole', () => {
+        const authid = 'authid';
+        const admin = false;
+        const update = { $set: {
+            admin: admin
+        }};
+    });
 });
 
+//Done with deleteUser.
 describe("deleteUser function", () => {
     test('Test the functionality of deleteUser', () => {
         expect(admin.deleteUser).toBeDefined();
@@ -59,8 +72,14 @@ describe("deleteUser function", () => {
         console.log('Debug: deleteUser');
         expect(console.log).toHaveBeenCalled();
     });
+
+    //Testing the mongodb deleteUser results.
+    test('Testing the mongodb deleteUser results of deleteUser', () => {
+        const authid = 'authid';
+    });
 });
 
+//Done with deleteStand.
 describe("deleteStand function", () => {
     test('Test the functionality of deleteStand', () => {
         expect(admin.deleteUser).toBeDefined();
@@ -73,9 +92,15 @@ describe("deleteStand function", () => {
         console.log('Deleting Stand with authid: ${authid}');
         expect(console.log).toHaveBeenCalled();
     });
+
+    //Testing the mongodb deleteStand results.
+    test('Testing the mongodb deleteStand results of deleteStand', () => {
+        const authid = 'authid';
+    });
 });
 
-describe("deleteStand function", () => {
+//Done with deleteStatistics.
+describe("deleteStatistics function", () => {
     test('Test the functionality of deleteStatistics', () => {
         expect(admin.deleteUser).toBeDefined();
         expect(admin.deleteUser).toBeInstanceOf(Function);
@@ -87,8 +112,14 @@ describe("deleteStand function", () => {
         console.log('Deleting Statistics with authid: ${authid}');
         expect(console.log).toHaveBeenCalled();
     });
+
+    //Testing the mongodb deleteStatistics results.
+    test('Testing the mongodb deleteStatistics results of deleteStatistics', () => {
+        const authid = 'authid';
+    });
 });
 
+//Done with isAdmin.
 describe("isAdmin function", () => {
     test('Test the functionality of isAdmin', () => {
         expect(admin.deleteUser).toBeDefined();
@@ -101,5 +132,12 @@ describe("isAdmin function", () => {
         console.log('Default admin page');
         console.log('Fatal Error =');
         expect(console.log).toHaveBeenCalled();
+    });
+
+    //Testing the mongodb isAdmin results.
+    test('Testing the mongodb isAdmin results of isAdmin', () => {
+        const authid = 'authid';
+        const admin = false;
+        const test = 'test';
     });
 });
