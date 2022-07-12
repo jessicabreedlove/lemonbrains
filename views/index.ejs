@@ -4,63 +4,157 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard | LemonBrains</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script type="text/javascript" src="/js/script.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Lemon Brains</title>
 </head>
 <body>
     <nav>
         <div class="logo" id="logo" onclick="location.reload()">
             <div class="logo-gif-div">
-                <img class="logo-gif" src="game/Assets/gifs/Logo.gif">
+                <img class="logo-gif" src="./Assets/gifs/Logo.gif">
             </div>
             <div class="logo-words">
                 <span class="lemon">Lemon</span> <span class="brains">Brains</span><br>
             </div>
         </div>
+
+        <div class="player-info">
+            <span class="lemon day">
+                Day:
+            </span>
+            <span id="number-of-days" class="number-of-days lemon"></span>
+            <span class="lemon earnings">
+                Earnings:
+            </span>
+            <span id="number-of-earnings" class="number-of-earnings lemon">$10</span>
+        </div>
     </nav>
-    <!-- 
-        Home page, this is where it all begins ...
-        before logging in, display a leader board that shows stand name, days played, earnings
-        This page needs a login button that points to login
-    -->
-    <div class="content">
-    
-    <h2>Example: included backend content = <%- test %></h2>
-    
-    <% if (user) { %>
-        <h2>Example: included backend object content wrapped in (if) <%= user.name %></h2>
-    <% } %>
+<div class="game-content">
 
-    <h1>Leader board</h1>
-    
-    TODO: loop entries in leader board
-    <% if( leaders && leaders.length > 0 ) { %>
-        <ul>
-        <% leaders.forEach(function(user){ %>
-            <li>authid=
-            <%- user.authid; %>
-            day=
-            <%- user.day; %>
-            earnings=
-            <%- user.earnings; %>
-            </li>
-        <% }); %>
-        </ul>
-    <% } %> 
+    <div class="menu-buttons" id="menu-buttons">
+        <h1 class="lemon first-menu-header" id="questions-header">An entrepreneurial venture for the undead</h1>
+        <h1 class="lemon second-menu-header" id="questions-header">...that teaches you math</h1>
 
-    TODO: add login button / links below are used for testing
-    <br><br>
-    <a href="stands">No Auth ... Login and redirect to setup</a>
-    <br><br>
-    <a href="stands/1">Has Auth ... go to stand</a>
-    <br><br>
-    <a href="game/index.html">Play Game</a>
-    <br><br>
-    <a href="login">Login</a>  
+        <div class="menu-buttons-div">
+            <button id="continue-venture-button">
+                Continue Venture
+            </button>
+            <button id="start-game-button">
+                Start New Business
+            </button>
+            <button id="customize-stand-button">
+                Customize Stand
+            </button>
+        </div>
+        
+    </div>
+
+    <div class="options-menu" id="options-menu">
+        <form action="">
+            <h1 class="lemon customize-settings-header" id="questions-header">
+                Customize your settings
+            </h1>
+            <h2 class="menu-header">Difficulty</h2>
+            <input type="radio" id="very-easy" name="difficulty" value="very-easy">
+            <label for="very-easy">Very Easy</label><br>
+            <input type="radio" id="easy" name="difficulty" value="easy">
+            <label for="easy">Easy</label><br>
+            <input type="radio" id="medium" name="difficulty" value="medium" checked>
+            <label for="medium">Medium</label><br>
+            <input type="radio" id="hard" name="difficulty" value="hard">
+            <label for="hard">Hard</label><br>
+            <input type="radio" id="extreme" name="difficulty" value="extreme">
+            <label for="extreme">Extreme</label>
+
+            <h2 class="menu-header">Zombie Speed</h2>
+            <input type="radio" id="slow" name="zombieSpeed" value="slow">
+            <label for="slow">Slow</label><br>
+            <input type="radio" id="normal" name="zombieSpeed" value="normal" checked>
+            <label for="normal">Normal</label><br>
+            <input type="radio" id="fast" name="zombieSpeed" value="fast">
+            <label for="fast">Fast</label><br>
+
+            <h2 class="menu-header">Length of Day</h2>
+            <input type="radio" id="thirtySeconds" name="lengthOfDay" value="30">
+            <label for="thirtySeconds">30s</label><br>
+            <input type="radio" id="oneMinute" name="lengthOfDay" value="60" checked>
+            <label for="oneMinute">60s</label><br>
+            <input type="radio" id="twoMinutes" name="lengthOfDay" value="120">
+            <label for="twoMinutes">120s</label><br>
+            <input type="radio" id="infinite" name="lengthOfDay" value="infinite">
+            <label for="infinite">Infinite</label><br>
+
+            <h2 class="menu-header">Question Types</h2>
+            <input type="radio" id="addition" name="questionTypes" value="addition">
+            <label for="addition">Addition</label><br>
+            <input type="radio" id="subtraction" name="questionTypes" value="subtraction">
+            <label for="subtraction">Subtraction</label><br>
+            <input type="radio" id="multiplication" name="questionTypes" value="multiplication">
+            <label for="multiplication">Multiplication</label><br>
+            <input type="radio" id="all" name="questionTypes" value="all" checked>
+            <label for="all">All</label><br>
+        </form>
+        
+
+        <button class="close-settings-button" id="close-settings-button">Close</button>
+    </div>
+    
+
+    
+    <div class="quiz" id="quiz">
+        <h1 class="lemon" id="questions-header">Answer the questions to give zombies lemonade</h1>
+        <div class="questions-div">
+            <div id="question">
+                <span id="int1"></span>
+                <span id="operator"></span>
+                <span id="int2"></span> =
+            </div>
+            <input type="number" name="answer" id="answer">
+
+            
+        </div>
+
+        <div class="buttons-div">
+            <button id="submit-button">Submit</button>
+            <button id="show-answer-button">See Answer</button>
+
+        </div>
+        <div class="time-left-div">
+            <span class="time-left lemon" ud>Time Left: </span>
+            <span class="day-time-left lemon" id="day-time-left">60</span>
+        </div>
+
+    </div>
+    
+    <div class="game-over-div" id="game-over-div">
+        <h1 class="brains" id="gameOver">Game Over</h1>
+        <button id="try-again">Try Again</button>
+    </div>
+
+    <div class="game-over-div" id="end-of-day-div">
+        <h1 class="lemon" id="success">Success!</h1>
+        <button id="next-day">Next Day</button>
+    </div>
+    
+    
+    <div class="playing-field sky" id="playing-field">
+        <span class="lemonade-stand-container">
+        <canvas class="lemonade-stand" width="500px" height="500px"></canvas>
+        </span>
+    </div>
+    <div class="ground">
+
+    </div>
 
 </div>
+
+    
+    
 </body>
+<script src="js/main.js" type="module"></script>
 </html>
