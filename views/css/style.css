@@ -1,3 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
+
+
 body {
-    background-color: yellow;
+    background-color: #855E42;
 }
+
+.brains {
+    font-family: "Creepster", cursive;
+    font-size: 1.3em;
+}
+
+.lemon {
+    font-family: "Roboto", sans-serif;
+  }
+
+  nav {
+    color: white;
+    text-align: center;
+  }
+  @media (min-width: 950px) {
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+}
+
+.logo {
+    margin-left: 50px;
+  }
+  @media (min-width: 950px) {
+    .logo {
+      margin-left: 0px;
+    }
+  }
+
+  .logo {
+    width: 350px;
+  }
+  
+  .logo:hover {
+    cursor: pointer;
+  }
+
+  .logo-gif-div {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .logo {
+    font-size: 2em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (min-width: 950px) {
+    .logo {
+      justify-content: left;
+    }
+  }
+
+.content {
+  background-color: #87CEEB;
+  min-height: 1000px;
+    
+}
+
+* {
+    margin: 0;
+    padding: 0;
+  }

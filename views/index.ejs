@@ -5,15 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard | LemonBrains</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <script type="text/javascript" src="/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+
 </head>
 <body>
+    <nav>
+        <div class="logo" id="logo" onclick="location.reload()">
+            <div class="logo-gif-div">
+                <img class="logo-gif" src="game/Assets/gifs/Logo.gif">
+            </div>
+            <div class="logo-words">
+                <span class="lemon">Lemon</span> <span class="brains">Brains</span><br>
+            </div>
+        </div>
+    </nav>
     <!-- 
         Home page, this is where it all begins ...
         before logging in, display a leader board that shows stand name, days played, earnings
         This page needs a login button that points to login
     -->
+    <div class="content">
     
     <h2>Example: included backend content = <%- test %></h2>
     
@@ -47,5 +60,7 @@
     <a href="game/index.html">Play Game</a>
     <br><br>
     <a href="login">Login</a>  
+
+</div>
 </body>
 </html>
