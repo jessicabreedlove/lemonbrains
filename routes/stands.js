@@ -11,24 +11,10 @@ const standsController = require( '../controllers/stands' );
 
 ////////////////////////////////////////////////////////////////
 
-// GET a single stand
-router.get( '/', (req, res ) => {
+// GET stand that matches authid else redirect to setup page
+router.get( '/', standsController.getStand );
 
-    // TODO: update code once authentication is in place, basic structure is in place
-    // if logged in, get information to build the stand
-    // if ( req.oidc.isAuthenticated() ) {
-        standsController.getStand( req, res );
-    // }
-    // else {
-        // res.send( 'TODO: login and redirect back here with some way to identify stand' );
-        /*
-        res.render( 'index', { message: 'Welcome ...' });
-        */
-    // }
-});
-
-
-// GET a single stand ... IS THIS NEEDED OR EVEN POSSIBLE ??? USED TO TEST ACCOUNT WHEN LOGGED IN
+// GET a specific stand
 router.get( '/:id', standsController.getStand );
 
 // POST create a new stand (and user)
@@ -36,8 +22,8 @@ router.get( '/:id', standsController.getStand );
 router.post( '/', standsController.createStand );
 // router.post( '/name/:name', requireAuth(), standsController.createStand );
 
-// TODO: PUT update day and earnings
-router.post( '/put', standsController.updateStand );
+// TODO: PUT update stand (day and earnings)
+router.post( '/put/:id', standsController.updateStand );
 //router.post( '/op/:op/brains/:brains', standsController.updateStand );
 
 ////////////////////////////////////////////////////////////////

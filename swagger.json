@@ -5,10 +5,10 @@
     "description": "Amazing fusion of a lemonade stand and a zombie apocalypse",
     "version": "1.0.0"
   },
-  "host": "lemonbrains.herokuapp.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/": {
@@ -18,9 +18,6 @@
         "responses": {
           "400": {
             "description": "Unable to match authid"
-          },
-          "404": {
-            "description": "Stand ID could not be found"
           }
         }
       }
@@ -102,15 +99,45 @@
     },
     "/users/": {
       "get": {
-        "description": "Show user settings",
+        "description": "Get all users",
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "Get user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authid",
+            "description": "User authentication id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {}
       }
     },
-    "/users/put": {
+    "/users/put/{id}": {
       "post": {
         "description": "Update user settings",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "dayLength",
             "description": "Length of game play in minutes 1-10, 0=infinite",
@@ -176,9 +203,6 @@
         "responses": {
           "400": {
             "description": "Unable to match authid"
-          },
-          "404": {
-            "description": "Stand ID could not be found"
           }
         }
       },
@@ -186,20 +210,8 @@
         "description": "Create stand",
         "parameters": [
           {
-            "name": "stand",
+            "name": "standName",
             "description": "Name of stand",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "day",
-            "description": "Number of days played",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "earnings",
-            "description": "Earnings to date",
             "in": "query",
             "type": "string"
           },
@@ -209,10 +221,22 @@
             "schema": {
               "type": "object",
               "properties": {
-                "stand": {
+                "standName": {
                   "example": "any"
                 },
-                "authid": {
+                "dayLength": {
+                  "example": "any"
+                },
+                "add": {
+                  "example": "any"
+                },
+                "sub": {
+                  "example": "any"
+                },
+                "mul": {
+                  "example": "any"
+                },
+                "div": {
                   "example": "any"
                 }
               }
@@ -243,17 +267,20 @@
         "responses": {
           "400": {
             "description": "Unable to match authid"
-          },
-          "404": {
-            "description": "Stand ID could not be found"
           }
         }
       }
     },
-    "/stands/put": {
+    "/stands/put/{id}": {
       "post": {
         "description": "Update stand information",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "stand",
             "description": "Name of stand",

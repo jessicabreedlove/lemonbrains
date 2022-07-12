@@ -14,9 +14,12 @@ const userController = require( '../controllers/users' );
 
 // TODO: protect routes with oauth
 // GET user
-router.get( '/', userController.getUser );
+router.get( '/', userController.getUsers );
 
-// POST user
-router.post( '/put', userController.updateUser );
+// GET user
+router.get( '/:id', userController.getUser );
+
+// POST update user
+router.post( '/put/:id', userController.updateUser );
 
 module.exports = router; // make endpoints public

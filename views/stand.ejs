@@ -18,7 +18,13 @@
         TODO: How can I send a PUT from the frontend ?
     -->
     <h1><a href="/">Home</a> | Stand</h1>
-    TODO: display stand and button to begin game.  Current page simulates game over and posts scores to the backend
+    This is the primary game page
+    <ul>
+        <li>TODO: integrate with Jaden's frontend</li>
+        <li>TODO: what exactly and how to send to backend?</li>
+        <li>TODO: what is needed to build this page?</li>
+        <li></li>
+    </ul>
     <form action="/stands/put" method="POST">
         <h2><%= stand %> | day: <%= day %> | earnings: <%= earnings %></h2>
         <label for="authid">authid:
@@ -65,7 +71,7 @@
         <input type="hidden" name="day" value="<%= day %>">
         <input type="Submit" value="Game over, send updates to server">
         <br><br>
-        <a href="/users/">Go to user settings (change number in browser to access a different user)</a>
+        <a href="/users/">Go to user settings</a>
 
         <% if (admin) { %>
             <br><br><a href="/admin">Go to admin page</a>

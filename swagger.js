@@ -25,10 +25,10 @@ const doc = {
         https://swagger.io/docs/specification/authentication/
     },
     */
-    //host: 'localhost:3000',
-    //schemes: ['http'],
-    host: 'lemonbrains.herokuapp.com',
-    schemes: ['https'],
+    host: 'localhost:3000',
+    schemes: ['http'],
+    //host: 'lemonbrains.herokuapp.com',
+    //schemes: ['https'],
 };
  
 const outputFile = './swagger.json'; // file to create

@@ -15,10 +15,6 @@
     <h1><a href="/">Home</a> | User Settings</h1>
     TODO: this page should post any updates a user wants to make to their stand
     <form action="/users/put" method="POST">
-        <label for="authid">Auth id: 
-            <input id="authid" name="authid" type="input" value="<%= result.authid %>"> (something returned by Auth0, hidden)
-        </label>
-        <br>
         <!--Should users be allowed to change their stand name?-->
         <!--label for="stand">Stand name:
             <input id="stand" name="stand" type="input" value="<%= stand %>">

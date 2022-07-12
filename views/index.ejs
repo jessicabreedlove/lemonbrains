@@ -40,9 +40,12 @@
 
     TODO: add login button / links below are used for testing
     <br><br>
-    <a href="stands">No Auth ... Login and redirect to setup</a>
+    To sign up, this link should prompt with oauth login, return to the page with an id that is used to create a user and a stand
     <br><br>
-    <a href="stands/1">Has Auth ... go to stand</a>
+    <a href="stands">Sign up</a>
+    <br><br>
+    This link is created by Auth automatically along with a /logout route.  If user credentials are verified, it returns to this page which should
+    call / in the index route again only this time with authentication
     <br><br>
     <a href="login">Login</a>  
 </body>

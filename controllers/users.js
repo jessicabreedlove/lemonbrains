@@ -11,11 +11,39 @@ const mongodb = require( '../db/connect' );
 const ApiError = require( '../errors/ApiError' );
 
 /***************************
+// Get all users
+****************************/
+const getUsers = async ( req, res ) => {
+    /*
+        #swagger.description = 'Get all users';
+    */
+    console.log( "Debug: getUser() in users controller" );
+
+    const result = mongodb.getDb().db().collection( 'users' ).find();
+    try {
+        if ( result._eventsCount != 0 ) {
+                // TODO: create a page to view users
+                console.log( "Results from getUser()", result );
+                res.send(result);
+        }
+        else {
+            res.send( "The database contains 0 users" );
+            //next( ApiError.notFound( "Error: user not found" ) );
+        }
+    }
+    catch ( err ) {
+        console.log( "Fatal Error =", err );
+    }
+};
+
+
+/***************************
 // Get user
 ****************************/
-const getUser = async ( req, res ) => {
+const getUser = async ( req, res, next ) => {
     /*
-        #swagger.description = 'Show user settings';
+        #swagger.description = 'Get user';
+        #swagger.parameters['authid'] = { description: 'User authentication id' };
     */
     console.log( "Debug: getUser() in users controller" );
 
@@ -24,12 +52,17 @@ const getUser = async ( req, res ) => {
 
     await mongodb.getDb().db().collection( 'users' ).findOne( { authid: authid })
         .then( async result => {
-            console.log( "Results from getUser()", result, result.admin, result.add );
-            res.render( 'settings', { stand: "taco", result: result } );
+            console.log( "Results from getUser()", result );
+            if ( result == null ) {
+                next( ApiError.notFound( "The user you requested was not found" ));
+            }
+            else {
+                res.render( 'settings', { stand: "taco", result: result } );                
+            }
         })
         .catch ( err => {
             console.log( "Fatal Error =", err );
-        });
+        });        
 };
 
 /***************************
@@ -47,7 +80,17 @@ const createUser = async ( req ) => {
     console.log( "Debug: createUser() in users controller" );
 
     const authid = req.oidc.user.sub;
-    const { dayLength, add, sub, mul, div } = req.body;
+
+    let { dayLength, add, sub, mul, div } = req.body;
+
+    // use defaults if not assigned
+    if (req.body.dayLength == null) {
+        dayLength = 60;
+        add = "on";
+        sub = "on";
+        mul = "";
+        div = "";
+    }
 
     const user = {
         authid: authid,
@@ -100,4 +143,4 @@ const updateUser = async ( req, res, next ) => {
         });
 };
 
-module.exports = { getUser, createUser, updateUser };
+module.exports = { getUsers, getUser, createUser, updateUser };

@@ -12,6 +12,7 @@ const ApiError = require( '../errors/ApiError' );
 const usersController = require( '../controllers/users' );
 const statisticsController = require( '../controllers/statistics' );
 const leaderController = require( '../controllers/leader' );
+const { ExplainVerbosity } = require('mongodb');
 
 /***************************
 // GET stand
@@ -20,60 +21,77 @@ const getStand = async ( req, res, next ) => {
     /*
         #swagger.description = 'Get stand information';
         #swagger.responses[400] = { description: 'Unable to match authid' }
-        #swagger.responses[404] = { description: 'Stand ID could not be found' }
     */
     console.log( "Debug: getStand() in stands controller, authid=", req.oidc.user.sub );
 
     const authid = req.oidc.user.sub; // identify user based authid
 
+    // the user should have an id but may not have an account yet
     if ( authid ) {
-       //res.send( `getStand() called: ${id} redirect to stand.html with name, location, days, earnings` );
+        // user is logged in but does not yet have an account
+        await mongodb.getDb().db().collection( 'users' ).findOne( { authid: authid })
+            .then( async result => {
 
-        // use try/catch for synchronous request
-        try {
-            // use then/catch for asynchronous code
-
-            // JOIN two tables https://hevodata.com/learn/mongodb-join-two-collections/
-            await mongodb.getDb().db().collection( 'stands' ).aggregate([
-                {
-                    $match: {
-                        authid: authid
-                    }
-                },
-                { $lookup: {
-                    from: 'users', // second collection
-                    localField: 'authid',
-                    foreignField: 'authid',
-                    as: 'userstand' // new collection
-                }}
-            ])
-            .toArray(function( err, result ) {
-                if ( err ) {
-                    throw err;
+                // user does not exist
+                if (result == null) {
+                    console.log( "User does not exist ... ", result );
+                    // redirect to set up page
+                    res.render( 'setup', { authid: authid } );
                 }
                 else {
-                    if ( result.length > 0 ) {
-                        console.log( result[0].stand, result[0].userstand[0].admin );
+                    // TO GET HERE, USER NEEDS TO BE AUTHENTICATED AND HAVE SET UP A STAND ALREADY
+                    // use try/catch for synchronous request
+                    try {
+                        // use then/catch for asynchronous code
 
-                        // TODO: css should be determined based on 
-                        const css = getLocation( result[0].earnings );
-                        res.render( 'stand', { css: css, authid: authid, stand: result[0].stand, day: result[0].day, earnings: result[0].earnings, admin: result[0].userstand[0].admin });
+                        // JOIN two tables https://hevodata.com/learn/mongodb-join-two-collections/
+                        await mongodb.getDb().db().collection( 'stands' ).aggregate([
+                            {
+                                $match: {
+                                    authid: authid
+                                }
+                            },
+                            { $lookup: {
+                                from: 'users', // second collection
+                                localField: 'authid',
+                                foreignField: 'authid',
+                                as: 'userstand' // new collection
+                            }}
+                        ])
+                        .toArray(function( err, result ) {
+                            if ( err ) {
+                                throw err;
+                            }
+                            else {
+                                if ( result.length > 0 ) {
+                                    console.log( "standName and user admin status: ", result[0].standName, result[0].userstand[0].admin );
+
+                                    // TODO: css should be determined based on 
+                                    const css = getLocation( result[0].earnings );
+                                    res.render( 'stand', { css: css, authid: authid, stand: result[0].stand, day: result[0].day, earnings: result[0].earnings, admin: result[0].userstand[0].admin });
+                                }
+                                else {
+                                    // TODO: invalid id
+                                    next( ApiError.notFound( "The id you requested was not found" ));
+                                }
+                            }
+                        });
                     }
-                    else {
-                        // TODO: invalid id
-                        next( ApiError.notFound( "The id you requested was not found" ));
+                    catch ( err ) {
+                        console.log( err );
+                        next( ApiError.badRequest( "Error: invalid authid" ) );
                     }
                 }
+            })
+            .catch ( err => {
+                console.log( "Fatal Error =", err);
             });
-        }
-        catch ( err ) {
-            console.log( err );
-            next( ApiError.badRequest( "Error: invalid authid" ) );
-        }
+
+            console.log( "baaaaaannnaaaaaaaaaannnnnaaaaaa");
     }
     else {
-        // redirect to set up page
-        res.render( 'setup', { authid: authid } );
+        console.log( err );
+        next( ApiError.notFound( "Error: missing authid" ) );
     }
 
     // next can be returned or called but it can´t be called after a function like redirect(), render(), send(), sendFile(), json()
@@ -84,17 +102,20 @@ const getStand = async ( req, res, next ) => {
 /***************************
 // POST set up stand
 ****************************/
-const createStand = async ( req, res ) => {
+const createStand = async ( req, res, next ) => {
     /*
         #swagger.description = 'Create stand';
-        #swagger.parameters['stand'] = { description: 'Name of stand' }
-        #swagger.parameters['day'] = { description: 'Number of days played' }
-        #swagger.parameters['earnings'] = { description: 'Earnings to date' }
+        #swagger.parameters['standName'] = { description: 'Name of stand' }
         #swagger.responses[200] = { description: 'OK' }
         #swagger.responses[500] = { description: 'Something went wrong creating the stand' }
     */
-        console.log( "Debug: createStand() in stands controller" );
+        console.log( "Debug: createStand() in stands controller = ", req );
+        
+        const { standName, dayLength, add, sub, mul, div } = req.body;
+        console.log( "req.body=", standName, dayLength, add, sub, mul, div );
+        res.sendStatus( 200 );
 
+        /*
         // TODO
         // 1. get auth info from request
         // const authid = req.body.authid;
@@ -104,14 +125,14 @@ const createStand = async ( req, res ) => {
         await usersController.createUser( req ); 
 
         // 3. get stand name from request
-        const name = req.body.stand;
+        const standName = req.body.standName;
 
-        console.log( `authid=${authid}, stand=${name}` );
-        // res.send( `authid=${authid}, stand=${name}` ); 
+        console.log( `authid=${authid}, standName=${standName}` );
+        // res.send( `authid=${authid}, stand=${standName}` ); 
         // construct an object
         const stand = {
             authid: authid, // TODO: decide to store authid or userid in stand and statistics ???
-            stand: name,
+            standName: standName,
             day: 0,
             earnings: 0
         };
@@ -125,8 +146,7 @@ const createStand = async ( req, res ) => {
                     console.log( result ); // 
                     console.log( "create stats" );
                     // const standid = result.insertedId.toString();
-                    const authid = req.body.authid; // TODO: decide better to use authid, userid or standid ???
-
+                    const authid = req.oidc.user.sub;
                     // set up 
                     const operations = ["add", "sub", "mul", "div"];
                     operations.forEach( async op => {
@@ -157,6 +177,7 @@ const createStand = async ( req, res ) => {
                 console.log( err );
                 next( ApiError.internalServerError( "An error occured while creating the stand" ));
             });
+            */
 };
 
 /***************************
