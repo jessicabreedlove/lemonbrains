@@ -113,9 +113,7 @@ const createStand = async ( req, res, next ) => {
         
         const { standName, dayLength, add, sub, mul, div } = req.body;
         console.log( "req.body=", standName, dayLength, add, sub, mul, div );
-        res.sendStatus( 200 );
 
-        /*
         // TODO
         // 1. get auth info from request
         // const authid = req.body.authid;
@@ -177,7 +175,6 @@ const createStand = async ( req, res, next ) => {
                 console.log( err );
                 next( ApiError.internalServerError( "An error occured while creating the stand" ));
             });
-            */
 };
 
 /***************************
