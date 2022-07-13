@@ -7,8 +7,30 @@
     <title>Leaderboard | LemonBrains</title>
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript" src="/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
 </head>
 <body>
+    <nav>
+        <div class="logo" id="logo" onclick="location.reload()">
+            <div class="logo-gif-div">
+                <img class="logo-gif" src="./Assets/gifs/Logo.gif">
+            </div>
+            <div class="logo-words">
+                <span class="lemon">Lemon</span> <span class="brains">Brains</span><br>
+            </div>
+        </div>
+
+        <div class="player-info">
+            <span class="lemon day">
+                Day:
+            </span>
+            <span id="number-of-days" class="number-of-days lemon"></span>
+            <span class="lemon earnings">
+                Earnings:
+            </span>
+            <span id="number-of-earnings" class="number-of-earnings lemon">$10</span>
+        </div>
+    </nav>
     <!-- 
         Home page, this is where it all begins ...
         before logging in, display a leader board that shows stand name, days played, earnings
