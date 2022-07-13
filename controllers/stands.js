@@ -123,7 +123,7 @@ const createStand = async ( req, res, next ) => {
         await usersController.createUser( req ); 
 
         // 3. get stand name from request
-        const standName = req.body.standName;
+        // const standName = req.body.standName;
 
         console.log( `authid=${authid}, standName=${standName}` );
         // res.send( `authid=${authid}, stand=${standName}` ); 
