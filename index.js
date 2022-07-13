@@ -68,3 +68,6 @@ mongodb.initDb( (err, mongodb ) => {
         });
     }
 });
+
+// export
+module.export = { app };
