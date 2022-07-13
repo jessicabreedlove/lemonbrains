@@ -1,61 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leaderboard | LemonBrains</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css" />
     <script type="text/javascript" src="/js/script.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Creepster&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <nav>
-        <div class="logo" id="logo" onclick="location.reload()">
-            <div class="logo-gif-div">
-                <img class="logo-gif" src="./Assets/gifs/Logo.gif">
-            </div>
-            <div class="logo-words">
-                <span class="lemon">Lemon</span> <span class="brains">Brains</span><br>
-            </div>
+      <div class="logo" id="logo" onclick="location.reload()">
+        <div class="logo-gif-div">
+          <img class="logo-gif" src="./Assets/gifs/Logo.gif" />
         </div>
+        <div class="logo-words">
+          <span class="lemon">Lemon</span> <span class="brains">Brains</span
+          ><br />
+        </div>
+      </div>
 
-        <div class="player-info">
-            <a class="lemon" href="stands">Sign up</a>
-            <a class="lemon" href="login">Login</a>  
-        </div>
+      <div class="player-info">
+        <a class="lemon" href="stands">Sign up</a>
+        <a class="lemon" href="login">Login</a>
+      </div>
     </nav>
     <!-- 
         Home page, this is where it all begins ...
         before logging in, display a leader board that shows stand name, days played, earnings
         This page needs a login button that points to login
     -->
-    
+
     <div class="game-content">
-        <h2>Example: included backend content = <%- test %></h2>
-    
-        <% if (user) { %>
-            <h2>Example: included backend object content wrapped in (if) <%= user.name %></h2>
-        <% } %>
-
-        <h1>Leader board</h1>
-        
-        TODO: loop entries in leader board
+      <h1 class="titleHeading">Leader board</h1>
+      <div class="boardContainer">
         <% if( leaders && leaders.length > 0 ) { %>
-            <ul>
-            <% leaders.forEach(function(user){ %>
-                <li>authid=
-                <%- user.authid; %>
-                day=
-                <%- user.day; %>
-                earnings=
-                <%- user.earnings; %>
-                </li>
-            <% }); %>
-            </ul>
-        <% } %> 
+        <table class="leaderTable">
+          <tr>
+            <th>Player Id</th>
+            <th>Day</th>
+            <th>Earnings</th>
+          </tr>
 
-        <!-- TODO: add login button / links below are used for testing
+          <% leaders.forEach(function(user){ %>
+          <tr>
+            <td><%- user.authid; %></td>
+            <td><%- user.day; %></td>
+            <td><%- user.earnings; %></td>
+          </tr>
+          <% }); %>
+        </table>
+        <% } %>
+      </div>
+
+      <!-- TODO: add login button / links below are used for testing
         <br><br>
         To sign up, this link should prompt with oauth login, return to the page with an id that is used to create a user and a stand
         <br><br>
@@ -66,7 +68,7 @@
         <br><br>
         <a href="login">Login</a>   -->
 
-        <!-- <div class="main-menu-buttons">
+      <!-- <div class="main-menu-buttons">
             <a class="link-button" href="login">Login</a>
             <a class="link-button" href="stands">Sign up</a>
 
@@ -74,13 +76,10 @@
     </div>
 
     <div class="playing-field sky" id="playing-field">
-        <span class="lemonade-stand-container">
+      <span class="lemonade-stand-container">
         <canvas class="lemonade-stand" width="500px" height="500px"></canvas>
-        </span>
+      </span>
     </div>
-    <div class="ground">
-
-    </div>
-    
-</body>
+    <div class="ground"></div>
+  </body>
 </html>
