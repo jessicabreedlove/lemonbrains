@@ -21,14 +21,8 @@
         </div>
 
         <div class="player-info">
-            <span class="lemon day">
-                Day:
-            </span>
-            <span id="number-of-days" class="number-of-days lemon"></span>
-            <span class="lemon earnings">
-                Earnings:
-            </span>
-            <span id="number-of-earnings" class="number-of-earnings lemon">$10</span>
+            <a class="lemon" href="stands">Sign up</a>
+            <a class="lemon" href="login">Login</a>  
         </div>
     </nav>
     <!-- 
@@ -37,38 +31,56 @@
         This page needs a login button that points to login
     -->
     
-    <h2>Example: included backend content = <%- test %></h2>
+    <div class="game-content">
+        <h2>Example: included backend content = <%- test %></h2>
     
-    <% if (user) { %>
-        <h2>Example: included backend object content wrapped in (if) <%= user.name %></h2>
-    <% } %>
+        <% if (user) { %>
+            <h2>Example: included backend object content wrapped in (if) <%= user.name %></h2>
+        <% } %>
 
-    <h1>Leader board</h1>
+        <h1>Leader board</h1>
+        
+        TODO: loop entries in leader board
+        <% if( leaders && leaders.length > 0 ) { %>
+            <ul>
+            <% leaders.forEach(function(user){ %>
+                <li>authid=
+                <%- user.authid; %>
+                day=
+                <%- user.day; %>
+                earnings=
+                <%- user.earnings; %>
+                </li>
+            <% }); %>
+            </ul>
+        <% } %> 
+
+        <!-- TODO: add login button / links below are used for testing
+        <br><br>
+        To sign up, this link should prompt with oauth login, return to the page with an id that is used to create a user and a stand
+        <br><br>
+        <a href="stands">Sign up</a>
+        <br><br>
+        This link is created by Auth automatically along with a /logout route.  If user credentials are verified, it returns to this page which should
+        call / in the index route again only this time with authentication
+        <br><br>
+        <a href="login">Login</a>   -->
+
+        <!-- <div class="main-menu-buttons">
+            <a class="link-button" href="login">Login</a>
+            <a class="link-button" href="stands">Sign up</a>
+
+        </div> -->
+    </div>
+
+    <div class="playing-field sky" id="playing-field">
+        <span class="lemonade-stand-container">
+        <canvas class="lemonade-stand" width="500px" height="500px"></canvas>
+        </span>
+    </div>
+    <div class="ground">
+
+    </div>
     
-    TODO: loop entries in leader board
-    <% if( leaders && leaders.length > 0 ) { %>
-        <ul>
-        <% leaders.forEach(function(user){ %>
-            <li>authid=
-            <%- user.authid; %>
-            day=
-            <%- user.day; %>
-            earnings=
-            <%- user.earnings; %>
-            </li>
-        <% }); %>
-        </ul>
-    <% } %> 
-
-    TODO: add login button / links below are used for testing
-    <br><br>
-    To sign up, this link should prompt with oauth login, return to the page with an id that is used to create a user and a stand
-    <br><br>
-    <a href="stands">Sign up</a>
-    <br><br>
-    This link is created by Auth automatically along with a /logout route.  If user credentials are verified, it returns to this page which should
-    call / in the index route again only this time with authentication
-    <br><br>
-    <a href="login">Login</a>  
 </body>
 </html>

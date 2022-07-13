@@ -43,7 +43,7 @@
   }
 }
 .lemon {
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif !important;
 }
 
 .brains {
@@ -69,8 +69,12 @@
   }
 }
 
+nav a {
+    color: white;
+}
+
 nav {
-  color: white;
+  color: white !important;
   text-align: center;
 }
 @media (min-width: 950px) {
@@ -138,7 +142,7 @@ nav {
   font-family: "Roboto", sans-serif;
 }
 
-button {
+button, .link-button {
   margin-top: 10px;
   font-size: 1em;
   padding: 10px 24px;
@@ -149,6 +153,21 @@ button {
 
 button:hover {
   background-color: #ac7954;
+}
+
+.main-menu-buttons {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 500px;
+    margin: auto;
+    margin-bottom: 20px;
+
+}
+
+.link-button {
+    width: 100px;
+    text-align: center;
 }
 
 #answer {
