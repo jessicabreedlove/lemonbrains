@@ -7,8 +7,25 @@
     <title>LemonBrains</title>
     <link  type="text/css" rel="stylesheet" href="/css/<%= css %>.css">
     <script type="text/javascript" src="/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
 </head>
 <body>
+    <nav>
+        <div class="logo" id="logo" onclick="location.reload()">
+            <div class="logo-gif-div">
+                <img class="logo-gif" src="./Assets/gifs/Logo.gif">
+            </div>
+            <div class="logo-words">
+                <span class="lemon">Lemon</span> <span class="brains">Brains</span><br>
+            </div>
+        </div>
+
+        <div class="player-info">
+            <!-- <a href="/users/">Go to user settings</a> -->
+            <strong><a class="lemon" href="/">Home</a></strong>
+            <a class="lemon" href="/logout">Logout</a>  
+        </div>
+    </nav>
     <!-- 
         Stand
         Page needs background css, button to begin game
@@ -17,68 +34,72 @@
         TODO: Is stand id needed or is this added to the req by OAuth ?
         TODO: How can I send a PUT from the frontend ?
     -->
-    <h1><a href="/">Home</a> | Stand</h1>
-    This is the primary game page
-    <ul>
-        <li>TODO: integrate with Jaden's frontend</li>
-        <li>TODO: what exactly and how to send to backend?</li>
-        <li>TODO: what is needed to build this page?</li>
-        <li></li>
-    </ul>
-    <form action="/stands/put" method="POST">
-        <h2><%= stand %> | day: <%= day %> | earnings: <%= earnings %></h2>
-        <label for="authid">authid:
-            <input id="authid" name="authid" type="input" value="<%= authid %>">
-        </label>
-        Day is incremented on each game over, earnings are calculated based on number and type of questions answered correctly
-        <br>
-        <h2>Addition</h2>
-        <label for="addCount">Count:
-            <input id="addCount" name="addCount" type="input" value="2">
-        </label>
-        <br>
-        <label for="addCorrect">Correct:
-            <input id="addCorrect" name="addCorrect" type="input" value="2">
-        </label>
-        <br>
-        <h2>Subtraction</h2>
-        <label for="subCount">Count:
-            <input id="subCount" name="subCount" type="input" value="3">
-        </label>
-        <br>
-        <label for="subCorrect">Correct:
-            <input id="subCorrect" name="subCorrect" type="input" value="1">
-        </label>
-        <br>
-        <h2>Multiplication</h2>
-        <label for="mulCount">Count:
-            <input id="mulCount" name="mulCount" type="input" value="5">
-        </label>
-        <br>
-        <label for="mulCorrect">Correct:
-            <input id="mulCorrect" name="mulCorrect" type="input" value="5">
-        </label>
-        <br>
-        <h2>Division</h2>
-        <label for="divCount">Count:
-            <input id="divCount" name="divCount" type="input" value="">
-        </label>
-        <br>
-        <label for="divCorrect">Correct:
-            <input id="divCorrect" name="divCorrect" type="input" value="">
-        </label>
-        <br><br>
-        <input type="hidden" name="day" value="<%= day %>">
-        <input type="Submit" value="Game over, send updates to server">
-        <br><br>
-        <a href="/users/">Go to user settings</a>
 
-        <% if (admin) { %>
-            <br><br><a href="/admin">Go to admin page</a>
-        <% } %>
+    <div class="game-content">
+        <div class="main-menu-buttons lemon" style="margin-top: 20px;">
+            <form action="/stands/put" method="POST" class="lemon-brains-form">
+                <h2><%= stand %> day: <%= day %> | earnings: <%= earnings %></h2>
+                <label for="authid">authid:
+                    <input id="authid" name="authid" type="input" value="<%= authid %>">
+                </label>
+                Day is incremented on each game over, earnings are calculated based on number and type of questions answered correctly
+                <br>
+                <h2>Addition</h2>
+                <label for="addCount">Count:
+                    <input id="addCount" name="addCount" type="input" value="2">
+                </label>
+                <br>
+                <label for="addCorrect">Correct:
+                    <input id="addCorrect" name="addCorrect" type="input" value="2">
+                </label>
+                <br>
+                <h2>Subtraction</h2>
+                <label for="subCount">Count:
+                    <input id="subCount" name="subCount" type="input" value="3">
+                </label>
+                <br>
+                <label for="subCorrect">Correct:
+                    <input id="subCorrect" name="subCorrect" type="input" value="1">
+                </label>
+                <br>
+                <h2>Multiplication</h2>
+                <label for="mulCount">Count:
+                    <input id="mulCount" name="mulCount" type="input" value="5">
+                </label>
+                <br>
+                <label for="mulCorrect">Correct:
+                    <input id="mulCorrect" name="mulCorrect" type="input" value="5">
+                </label>
+                <br>
+                <h2>Division</h2>
+                <label for="divCount">Count:
+                    <input id="divCount" name="divCount" type="input" value="">
+                </label>
+                <br>
+                <label for="divCorrect">Correct:
+                    <input id="divCorrect" name="divCorrect" type="input" value="">
+                </label>
+                <br><br>
+                <input type="hidden" name="day" value="<%= day %>">
+                <input type="Submit" value="Game over, send updates to server">
+                <br><br>
+        
+                <% if (admin) { %>
+                    <br><br><a href="/admin">Go to admin page</a>
+                <% } %>
+            </form>
+        </div>
 
-        <br><br>
-        <a href="/logout">Logout</a>  
-    </form>
+    </div>
+
+    <div class="playing-field sky" id="playing-field">
+        <span class="lemonade-stand-container">
+        <canvas class="lemonade-stand" width="500px" height="500px"></canvas>
+        </span>
+    </div>
+    <div class="ground">
+
+    </div>
+    
 </body>
 </html>
