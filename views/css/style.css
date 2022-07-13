@@ -1,6 +1,6 @@
 /*** Global Styles ***/
 /* Reset the margin and padding of everything so we can get rid of the white border that the browser gives us by default*/
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -43,11 +43,11 @@
   }
 }
 .lemon {
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 .brains {
-  font-family: "Creepster", cursive;
+  font-family: 'Creepster', cursive;
   font-size: 1.3em;
 }
 
@@ -70,7 +70,7 @@
 }
 
 nav a {
-    color: white;
+  color: white;
 }
 
 nav {
@@ -121,7 +121,7 @@ nav {
 }
 
 .quiz {
-  background-color: #87CEEB;
+  background-color: #87ceeb;
   margin-bottom: 150px;
   display: none;
 }
@@ -139,35 +139,37 @@ nav {
 #question {
   font-size: 2em;
   margin-top: 20px;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
-button, .link-button, input[type="submit"] {
+button,
+.link-button,
+input[type='submit'] {
   margin-top: 10px;
   font-size: 1em;
   padding: 10px 24px;
   color: white;
-  background-color: #855E42;
+  background-color: #855e42;
   cursor: pointer;
 }
 
-button:hover, input[type="submit"]:hover {
+button:hover,
+input[type='submit']:hover {
   background-color: #ac7954;
 }
 
 .main-menu-buttons {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 500px;
-    margin: auto;
-    margin-bottom: 20px;
-
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+  margin: auto;
+  margin-bottom: 20px;
 }
 
 .link-button {
-    width: 100px;
-    text-align: center;
+  width: 100px;
+  text-align: center;
 }
 
 #answer {
@@ -197,7 +199,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -207,13 +209,13 @@ input[type=number] {
 }
 
 .game-content {
-  background-color: #87CEEB;
+  background-color: #87ceeb;
   width: 100%;
   overflow: hidden;
 }
 
 .sky {
-  background-color: #87CEEB;
+  background-color: #87ceeb;
   height: 200px;
 }
 
@@ -234,7 +236,7 @@ input[type=number] {
 
 .options-menu {
   display: none;
-  background-color: #855E42;
+  background-color: #855e42;
   border-radius: 15px;
   color: white;
   flex-direction: column;
@@ -252,7 +254,7 @@ input[type=number] {
 }
 
 .menu-header {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin-top: 10px;
 }
 
@@ -263,7 +265,7 @@ input[type=number] {
 }
 
 html {
-  background-color: #855E42;
+  background-color: #855e42;
 }
 
 .game-over-div {
@@ -281,7 +283,8 @@ html {
   padding-top: 20px;
 }
 
-#try-again, #next-day {
+#try-again,
+#next-day {
   margin-bottom: 150px;
 }
 
@@ -342,13 +345,55 @@ input:focus {
 }
 
 .lemon-brains-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .invisible {
-    display: none;
+  display: none;
 }
 
 /*# sourceMappingURL=styles.css.map */
+
+/* index page - leaderboard */
+.titleHeading {
+  text-align: center;
+  font-family: 'Creepster', cursive;
+  line-height: 2em;
+  font-size: 3.5em;
+}
+
+.boardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Leaderboard Table */
+.leaderTable {
+  border: 2px solid #ac7954;
+  width: 75%;
+}
+
+td,
+th {
+  padding: 10px;
+}
+
+th {
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 1.5em;
+  background-color: #ac7954;
+}
+
+td {
+  text-align: center;
+  border: 1px solid #ac7954;
+}
+
+tr:nth-child(even) {
+  background-color: #eee;
+}
