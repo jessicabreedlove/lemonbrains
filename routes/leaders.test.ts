@@ -1,12 +1,16 @@
 const request = require('supertest');
-import app from '../index.js';
+import router from '../routes/index.js';
+const express = require('express');
+
+const app = new express();
+app.use('/', router);
 
 //Test the router get default leaders page.
 describe('test/leaders/index', () => {
     test("test the leaders route", done => {
          
         request(app)
-            .get('/leaders')
+            .get('/')
             .expect(200)
             .end(done); 
     });
@@ -14,7 +18,7 @@ describe('test/leaders/index', () => {
     //Test the router endpoints.
     test("test the leaders route endpoints", done => {
         request(app)
-            .get('/leaders/leaders')
+            .get('/')
             .expect(200)
             .end(done);
     });

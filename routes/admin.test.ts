@@ -1,15 +1,13 @@
 const request = require('supertest');
-const app = require('../index.js');
+import router from '../routes/index.js';
+const express = require('express');
 
-describe('Post Endpoints', () => {
-    it('should create a new post', async () => {
-        const res = await request(app)
-        .post('/posts')
-        .send({
-            title: 'Test Post',
-            content: 'This is a test post'
-        });
-        expect(res.statusCode).toBe(201);
-        expect(res.body).toHaveProperty('post');
-    });
+const app = new express();
+app.use('/', router);
+
+test("test the admin controller route that responds", async () => {
+    const res = await request(app).get('/');
+    expect(res.header['content-type']).toBe('text/html; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toEqual('hello world!');
 });

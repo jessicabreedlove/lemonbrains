@@ -1,9 +1,9 @@
-const index = require('./index');
+const request = require('supertest');
+import router from './routes/index.js';
+const express = require('express');
 
-app.use(express.urlencoded({
-    extended: false
-}));
-app.use('/', index);
+const app = new express();
+app.use('/', router);
 
 test("index route works", done => {
     request(app)

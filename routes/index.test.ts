@@ -1,5 +1,9 @@
 const request = require('supertest');
-import app from '../index.js';
+import router from '../routes/index.js';
+const express = require('express');
+
+const app = new express();
+app.use('/', router);
 
 test("test the index route", done => {
     request(app)
