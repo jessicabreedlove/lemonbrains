@@ -347,4 +347,8 @@ input:focus {
     justify-content: center;
 }
 
+.invisible {
+    display: none;
+}
+
 /*# sourceMappingURL=styles.css.map */
