@@ -13,12 +13,12 @@ function apiErrorHandler( err, req, res, next ) {
     if ( err instanceof ApiError ) {
         // res.status( err.code ).json( err.message );
         console.log( "OIDC code = ", req.oidc.user.sub );
-        res.render( 'error', { code: err.code, message: err.message });
+        res.sendStatus( err.code ).render( 'error', { code: err.code, message: err.message });
         return;
     }
 
     // else 
-    res.render( 'error', { code: 500, message: "An unknown error has taken place." });
+    res.sendStatus( 500 ).render( 'error', { code: 500, message: "An unknown error has taken place." });
 }
 
 module.exports = apiErrorHandler; // make function public

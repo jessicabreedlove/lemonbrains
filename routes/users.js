@@ -20,6 +20,10 @@ router.get( '/', userController.getUsers );
 router.get( '/:id', userController.getUser );
 
 // POST update user
-router.post( '/put/:id', userController.updateUser );
+router.put( '/:id', userController.updateUser );
+router.post( '/put', userController.updateUser ); // update via POST form
+
+// DELETE user
+router.delete( '/:id', userController.deleteUser );
 
 module.exports = router; // make endpoints public

@@ -21,6 +21,11 @@ class ApiError {
         return new ApiError( 400, message);
     }
 
+    // Although the HTTP standard specifies "unauthorized", semantically this response means "unauthenticated". That is, the client must authenticate itself to get the requested response.
+    static unauthorized( message) {
+        return new ApiError( 401, message);
+    }
+
     // The request contained valid data and was understood by the server, but the server is refusing action. This may be due to the user not having the necessary permissions for a resource or needing an account of some sort, or attempting a prohibited action
     static forbidden( message) {
         return new ApiError( 403, message);

@@ -1,84 +1,100 @@
 /***************************************
  * Admin controller
  * 
- * TODO: add description
+ * A place for all things administrative
  */
 
 // includes ...
 const mongodb = require( '../db/connect' );
-// const Joi = require( 'joi' );
+const Joi = require( 'joi' );
 const ApiError = require( '../errors/ApiError' );
 
 
 /***************************
-// TODO: add description
-****************************/
-const getLocations = async ( req, res ) => {
-    /*
-        #swagger.description = 'Admin get locations';
-    */
-        console.log( "Debug: getLocations" );
-        res.send( "getLocations() called" ); 
-};
-
-/***************************
-// TODO: add description
-****************************/
-const createLocation = async ( req, res ) => {
-    /*
-        #swagger.description = 'Admin create location';
-    */
-    console.log( "Debug: createLocation" );
-    res.send( "createLocation() called" ); 
-};
-
-/***************************
-// PUT toggle admin role for user (this comes via a PUT request)
+// PUT toggle admin role for user
 ****************************/
 const updateRole = async ( req, res, next ) => {
     /*
-        #swagger.description = 'Toggle user admin role to be true or false'
-        #swagger.responses[404] = { description: 'Unable to find user' }
-    */
-    const authid = req.params.id;
-
-    await mongodb.getDb().db().collection( 'users' ).findOne( { authid: authid })
-        .then( async result => {
-            console.log( result );
-            console.log( "Results from getUser()", result, result.admin );
-
-            let admin = false;
-            if ( !result.admin ) {
-                // if user.admin == false, set true, otherwise, user.admin is true and should be set to false
-                admin = true;
+    #swagger.description = 'Toggle user admin role to be true or false'
+    #swagger.responses[201] = { description: 'User admin status successfully updated' }
+    #swagger.responses[401] = { description: 'Unauthorized access' }
+    #swagger.responses[404] = { description: 'Unable to find user' }
+    #swagger.responses[500] = { description: 'Undocumented error, are you certain you\'re logged in?' }
+    #swagger.parameters['body'] = {
+            in: 'body',
+            required: true,
+            description: 'Toggle the user admin flag',
+            schema: {
+                $userid: '...',
             }
+        };           
+    */
+    console.log( "Debug: updateUser() in admin controller" );
 
-            // save to database
-            const update = { $set: {
-                admin: admin
-            }};
+    const authid = req.oidc.user.sub; // authenticated id
 
-            console.log( "user admin update", update );
-            mongodb.getDb().db().collection( 'users' ).updateOne( { authid: authid }, update, function( err, res ) {
-                if (err) {
-                    console.log( "0 document updated" );
-                    throw err;
+    if ( authid ) {
+        
+        // VALIDATION
+        const { error } = validateUpdate( req.body );
+
+        if ( error ) {
+            next( ApiError.badRequest( 'Invalid role data: ' + error.details[0].message ));
+            return;
+        }
+
+        const userid = req.body.userid; // instead, pull this from the body
+
+        console.log( "Toggle role of authid: ", userid );
+
+        await mongodb.getDb().db().collection( 'users' ).findOne( { authid: userid })
+        .then( async result => {
+
+            if ( result == null ) {
+                res.sendStatus( 404 );
+            }
+            else {
+                console.log( "Results from updateRole()", result, result.admin );
+
+                let admin = false;
+                if ( !result.admin ) {
+                    // if user.admin == false, set true, otherwise, user.admin is true and should be set to false
+                    admin = true;
                 }
-                else{
-                    console.log( "1 document updated" );
-                }
-            });
 
-            res.render( 'admin', { role: true, result: result, admin: admin } );
+                // save to database
+                const update = { $set: {
+                    admin: admin
+                }};
+
+                console.log( "user admin update", update );
+                await mongodb.getDb().db().collection( 'users' ).updateOne( { authid: authid }, update )
+                .then ( result => {
+                    if ( result.acknowledged ) {
+                        console.log( "1 document updated" );
+                        res.setHeader( 'Content-Type', 'application/json' );
+                        res.status( 201 ).json( result );
+                        // res.render( 'admin', { toggle: true } ); // 200 TODO: build this admin page
+                        next();
+                    }
+                    else {
+                        next( ApiError.internalServerError( 'An error occurred after updating the user' )); // 500
+                    }
+                })
+                .catch ( err => {
+                    next( ApiError.internalServerError( 'An error occurred while updating the user' )); // 500
+                });
+            }
         })
         .catch ( err => {
-            console.log( "Fatal Error =", err);
-            next( ApiError.notFound( "Unable to find user" ));
+            console.log( err );
+            next( ApiError.notFound( "Unable to find user" )); // 404
         });
-
-    // TODO: function should identify user in 'users' and toggle admin field to be true or false
-    console.log( "Debug: updateRole" );
-    // res.send( "updateRole() called" ); 
+    }
+    else {
+        console.log( err );
+        next ( ApiError.unauthorized( "Error: missing authid" )); // 401
+    }      
 };
 
 /***************************
@@ -86,40 +102,50 @@ const updateRole = async ( req, res, next ) => {
 ****************************/
 const deleteUser = async ( req, res ) => {
     /*
-        #swagger.description = 'Delete user, stand, and related statistics '
-        #swagger.responses[404] = { description: 'Unable to find user' }
+    #swagger.description = 'Delete user, stand, and related statistics'
+    #swagger.responses[200] = { description: 'The user, stand and related statistics were deleted' }
+    #swagger.responses[401] = { description: 'Unauthorized access' }
+    #swagger.responses[404] = { description: 'Unable to find user' }
+    #swagger.responses[500] = { description: 'Undocumented error, are you certain you\'re logged in?' }
     */
+    console.log( "Debug: deleteUser() in admin controller" );
 
-    try {
-        const authid = req.params.id;
+    const authid = req.oidc.user.sub; // authenticated id
+
+    if ( authid ) {
+        const userid = req.params.id; // id of the user to delete
 
         // use then/catch for asynchronous code
-        await mongodb.getDb().db().collection( 'users' ).deleteOne({ authid: authid })
-            .then ( result => {
+        await mongodb.getDb().db().collection( 'users' ).deleteOne({ authid: userid })
+        .then ( result => {
+            console.log( "Deleted user = ", result );
+
+            if ( result.deletedCount == 0 ) {
+                res.sendStatus( 404 );
+            }
+            else {
                 deleteStand( authid );
                 deleteStatistics( authid );
-
-                res.render( 'admin', { delete: true, result: result } );
-            })
-            .catch ( err => {
-                console.log( err );
-                next( ApiError.internalServerError( 'An error occurred while deleting the user' ));
-            });
+                res.setHeader( 'Content-Type', 'application/json' );
+                res.status( 201 ).json( result );
+                // res.render( 'admin', { delete: true } ); // 200 TODO: build this admin page
+            }
+        })
+        .catch ( err => {
+            next( ApiError.internalServerError( 'An error occurred while deleting the user' )); // 500
+        });
     }
-    catch ( err ) {
-        next ( ApiError.notFound( "Error: invalid id" ));
-    }
-
-    // TODO: function should delete user, stand, statistics for the specified user
-    console.log( "Debug: deleteUser" );
-    //res.send( "deleteLocation() called" ); 
+    else {
+        console.log( err );
+        next ( ApiError.unauthorized( "Error: missing authid" )); // 401
+    }  
 };
 
 // delete stand
 const deleteStand = async ( authid ) => {
     await mongodb.getDb().db().collection( 'stands' ).deleteOne({ authid: authid })
     .then ( result => {
-        console.log( `Deleting Stand with authid: ${authid}`);
+        console.log( `Deleting Stand with authid: ${authid}` );
     })
     .catch ( err => {
         console.log( err );
@@ -127,11 +153,11 @@ const deleteStand = async ( authid ) => {
     });
 };
 
-// delete add, sub, mul, div statistics
+// delete statistics: add, sub, mul, div
 const deleteStatistics = async ( authid ) => {
     await mongodb.getDb().db().collection( 'statistics' ).deleteMany({ authid: authid })
     .then ( result => {
-        console.log( `Deleting Statistics with authid: ${authid}`);
+        console.log( `Deleting Statistics with authid: ${authid}` );
     })
     .catch ( err => {
         console.log( err );
@@ -139,6 +165,8 @@ const deleteStatistics = async ( authid ) => {
     });
 };
 
+
+/*
 const isAdmin = async ( req, res ) => {
 
     const authid = req.oidc.user.sub;
@@ -158,7 +186,6 @@ const isAdmin = async ( req, res ) => {
         .catch ( err => {
             console.log( "Fatal Error =", err );
         });
+};*/
 
-};
-
-module.exports = { getLocations, createLocation, updateRole, deleteUser, isAdmin };
+module.exports = { updateRole, deleteUser };
