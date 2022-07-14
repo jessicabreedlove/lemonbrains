@@ -5,10 +5,10 @@
     "description": "Amazing fusion of a lemonade stand and a zombie apocalypse",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "lemonbrains.herokuapp.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/": {
@@ -206,6 +206,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "201": {
             "description": "User updated"
           },
@@ -289,6 +292,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "201": {
             "description": "User updated"
           },

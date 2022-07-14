@@ -195,9 +195,9 @@ const updateUser = async ( req, res, next ) => {
         await mongodb.getDb().db().collection( 'users' ).updateOne( { authid: authid }, update, { upsert: true })
         .then( async result => {
             console.log( 'update user settings: ', result );
-    
+            res.sendStatus( 200 );
             // all good redirect to user page
-            res.redirect( "/stands/" ); // using OK causes intermediate page to show and requires an additional click
+            //res.redirect( "/stands/" ); // using OK causes intermediate page to show and requires an additional click
         })
         .catch ( err => {
             console.log( "Fatal Error =", err );
@@ -258,7 +258,7 @@ const deleteUser = async ( req, res ) => {
  *******************************/
  function validateUser( user ) {
     const schema = Joi.object({
-      dayLength: Joi.string().required(),
+      dayLength: Joi.string(),
       add: Joi.string(),
       sub: Joi.string(),
       mul: Joi.string(),

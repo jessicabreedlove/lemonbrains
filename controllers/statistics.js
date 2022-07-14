@@ -39,7 +39,7 @@ const updateStat = async ( update ) => {
 /***************************
 // CREATE statistic (rubric)
 ****************************/
-const createStat = async ( req, res ) => {
+const createStat = async ( req, res, next ) => {
     /*
     #swagger.description = 'Create statistic with hard coded authid, safe for testing'
     #swagger.responses[201] = { description: 'The stat was created' }
@@ -63,7 +63,7 @@ const createStat = async ( req, res ) => {
     if ( authid ) {
 
         // VALIDATION
-        const { error } = validateCreate( req.body );
+        const { error } = validateStat( req.body );
 
         if ( error ) {
             next( ApiError.badRequest( 'Invalid statistic data: ' + error.details[0].message ));
@@ -105,7 +105,7 @@ const createStat = async ( req, res ) => {
 /***************************
 // DELETE statistic (rubric)
 ****************************/
-const deleteStat = async ( req, res ) => {
+const deleteStat = async ( req, res, next ) => {
     /*
     #swagger.description = 'Delete statistic with hard coded authid, safe for testing'
     #swagger.responses[201] = { description: 'The stat was deleted' }
@@ -155,10 +155,11 @@ const deleteStat = async ( req, res ) => {
 * VALIDATION
 * https://joi.dev/api/?v=17.6.0
 *******************************/
-function validateCreate( statistic ) {
+function validateStat( statistic ) {
     const schema = Joi.object({
-        standName: Joi.string().required(),
-        dayLength: Joi.string().required()
+        op: Joi.string().required(),
+        count: Joi.string().required(),
+        correct: Joi.string().required()
     });
 
     return schema.validate( statistic );

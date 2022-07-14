@@ -189,8 +189,6 @@ const createBoard = async ( req, res, next ) => {
     }       
 };
 
-
-
 /***************************
 // DELETE board
 ****************************/
