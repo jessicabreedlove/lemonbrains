@@ -25,7 +25,7 @@ const getLeaders = async ( req, res ) => {
             console.log( "Fatal Error =", err );
         }
         else {
-            res.render( 'index', { test: "TEST", user: {name: "TEST OBJECT"}, leaders: result[0].board });
+            res.render( 'index', { leaders: result[0].board });
         }
     });
 };

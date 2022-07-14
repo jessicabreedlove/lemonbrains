@@ -16,7 +16,7 @@
     <nav>
       <div class="logo" id="logo" onclick="location.reload()">
         <div class="logo-gif-div">
-          <img class="logo-gif" src="./Assets/gifs/Logo.gif" />
+          <img class="logo-gif" src="./Assets/gifs/Logo.gif" alt="glass of lemonade with brain garnish" />
         </div>
         <div class="logo-words">
           <span class="lemon">Lemon</span> <span class="brains">Brains</span
@@ -41,14 +41,14 @@
         <% if( leaders && leaders.length > 0 ) { %>
         <table class="leaderTable">
           <tr>
-            <th>Player Id</th>
+            <th>Player</th>
             <th>Day</th>
             <th>Earnings</th>
           </tr>
 
           <% leaders.forEach(function(user){ %>
           <tr>
-            <td><%- user.authid; %></td>
+            <td><%- user.stand; %></td>
             <td><%- user.day; %></td>
             <td><%- user.earnings; %></td>
           </tr>
@@ -56,23 +56,6 @@
         </table>
         <% } %>
       </div>
-
-      <!-- TODO: add login button / links below are used for testing
-        <br><br>
-        To sign up, this link should prompt with oauth login, return to the page with an id that is used to create a user and a stand
-        <br><br>
-        <a href="stands">Sign up</a>
-        <br><br>
-        This link is created by Auth automatically along with a /logout route.  If user credentials are verified, it returns to this page which should
-        call / in the index route again only this time with authentication
-        <br><br>
-        <a href="login">Login</a>   -->
-
-      <!-- <div class="main-menu-buttons">
-            <a class="link-button" href="login">Login</a>
-            <a class="link-button" href="stands">Sign up</a>
-
-        </div> -->
     </div>
 
     <div class="playing-field sky" id="playing-field">
