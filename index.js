@@ -48,6 +48,7 @@ app
         next();
     })
     .use( express.static( __dirname + '/views')) // without this, files can't include css and js
+    .use('/images', express.static('Assets/public')) // serve images, https://www.geeksforgeeks.org/how-to-fetch-images-from-node-js-server/
     .use( '/', require( './routes') ) // load routes
     .use( apiErrorHandler );
 
