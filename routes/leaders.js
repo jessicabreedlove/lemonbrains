@@ -20,12 +20,12 @@ const leaderController = require( '../controllers/leader' );
 // router.get( '/', leaderController.getLeaders );
 
 // POST create new leader
-// router.post( '/leader/', leaderController.createLeader );
+router.post( '/', leaderController.createBoard );
 
 // PUT update existing leader
 // router.post( '/:id/leader/:leader', leaderController.updateLeader );
 
 // DELETE remove leader
-// router.delete( '/:id', leaderController.deleteLeader );
+router.delete( '/', leaderController.deleteBoard );
 
 module.exports = router; // make endpoints public

@@ -7,10 +7,6 @@
 * are created (POST) and deleted (DELETE) by the user controller
 */
 
-/******************************************************
-// NOTE: THIS PAGE MAY NOT BE NEEDED
-******************************************************/
-
 // includes ...
 const router = require( 'express' ).Router();
 const statisticsController = require( '../controllers/statistics' );
@@ -18,12 +14,8 @@ const statisticsController = require( '../controllers/statistics' );
  
 ////////////////////////////////////////////////////////////////
 
-// GET a single stat
-// router.get( '/:id/op/:operation', statisticsController.getStat );
- 
-// PUT update a stat
-// requires a user id, type of operation (add, sub, mul, div), number attempted and number correct
-// router.put( '/:id/op/:operation/count/:count/correct/:correct', statisticsController.updateStat );
-// router.put( '/:id/op/:operation/count/:count/correct/:correct', requireAuth(), standsController.updateStand );
+// endpoint to meet rubric
+router.post( '/', statisticsController.createStat );
+router.delete( '/', statisticsController.deleteStat );
 
 module.exports = router; // make endpoints public

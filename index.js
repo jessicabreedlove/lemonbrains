@@ -42,7 +42,7 @@ app
     // parse application/x-www-form-urlencoded
     .use( bodyParser.urlencoded({ extended: false })) // needed to get data from req.body
     // parse application/json
-    //.use( bodyParser.json()) // not sure if this needed
+    .use( bodyParser.json()) // needed (I think) to work with Swagger PUT and POST requests
     .use(( req, res, next ) => {
         res.setHeader( 'Access-Control-Allow-Origin', '*' ); // specifiy (domain, scheme, or port) from which a browser should permit loading resources https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
         next();
@@ -68,6 +68,3 @@ mongodb.initDb( (err, mongodb ) => {
         });
     }
 });
-
-// export
-module.export = { app };

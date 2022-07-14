@@ -13,59 +13,78 @@
   "paths": {
     "/": {
       "get": {
-        "description": "Get stand information",
+        "description": "Home page, (default) no authentication required",
         "parameters": [],
         "responses": {
-          "400": {
-            "description": "Unable to match authid"
+          "200": {
+            "description": "Show leader board"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Unable to find stand"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
           }
         }
-      }
-    },
-    "/admin/": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
       }
     },
     "/admin/role/{id}": {
       "put": {
         "description": "Toggle user admin role to be true or false",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "Unable to find user"
-          }
-        }
-      },
-      "get": {
-        "description": "Toggle user admin role to be true or false",
-        "parameters": [
+          },
           {
-            "name": "id",
-            "in": "path",
+            "name": "body",
+            "in": "body",
             "required": true,
-            "type": "string"
+            "description": "Toggle the user admin flag",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userid": {
+                  "type": "string",
+                  "example": "..."
+                }
+              },
+              "required": [
+                "userid"
+              ]
+            }
           }
         ],
         "responses": {
+          "201": {
+            "description": "User admin status successfully updated"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
           "404": {
             "description": "Unable to find user"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
           }
         }
       }
     },
     "/admin/delete/{id}": {
       "delete": {
-        "description": "Delete user, stand, and related statistics ",
+        "description": "Delete user, stand, and related statistics",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -75,24 +94,20 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "The user, stand and related statistics were deleted"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
           "404": {
             "description": "Unable to find user"
-          }
-        }
-      },
-      "get": {
-        "description": "Delete user, stand, and related statistics ",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "Unable to find user"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
           }
         }
       }
@@ -100,10 +115,19 @@
     "/users/": {
       "get": {
         "description": "Get all users",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Return database users"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
           }
         }
       }
@@ -125,11 +149,19 @@
             "type": "string"
           }
         ],
-        "responses": {}
-      }
-    },
-    "/users/put/{id}": {
-      "post": {
+        "responses": {
+          "200": {
+            "description": "Return database user"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
+          }
+        }
+      },
+      "put": {
         "description": "Update user settings",
         "parameters": [
           {
@@ -139,61 +171,140 @@
             "type": "string"
           },
           {
-            "name": "dayLength",
-            "description": "Length of game play in minutes 1-10, 0=infinite",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "add",
-            "description": "Generate questions with addition",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "sub",
-            "description": "Generate questions with subtraction",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "mul",
-            "description": "Generate questions with multiplication",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "div",
-            "description": "Generate questions with division",
-            "in": "query",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
+            "description": "Set length of day in seconds and what questions should be asked (addition, subtraction, multiplication, division)",
             "schema": {
               "type": "object",
               "properties": {
                 "dayLength": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "60"
                 },
                 "add": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "on"
                 },
                 "sub": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "on"
                 },
                 "mul": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "on"
                 },
                 "div": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "on"
                 }
-              }
+              },
+              "required": [
+                "dayLength",
+                "add",
+                "sub",
+                "mul",
+                "div"
+              ]
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "201": {
+            "description": "User updated"
+          },
+          "400": {
+            "description": "Bad request, make sure inputs are strings"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user was deleted"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Unable to find user"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
+          }
+        }
+      }
+    },
+    "/users/put": {
+      "post": {
+        "description": "Update user settings",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Set length of day in seconds and what questions should be asked (addition, subtraction, multiplication, division)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dayLength": {
+                  "type": "string",
+                  "example": "60"
+                },
+                "add": {
+                  "type": "string",
+                  "example": "on"
+                },
+                "sub": {
+                  "type": "string",
+                  "example": "on"
+                },
+                "mul": {
+                  "type": "string",
+                  "example": "on"
+                },
+                "div": {
+                  "type": "string",
+                  "example": "on"
+                }
+              },
+              "required": [
+                "dayLength",
+                "add",
+                "sub",
+                "mul",
+                "div"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User updated"
+          },
+          "400": {
+            "description": "Bad request, make sure inputs are strings"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
+          }
+        }
       }
     },
     "/stands/": {
@@ -201,8 +312,17 @@
         "description": "Get stand information",
         "parameters": [],
         "responses": {
-          "400": {
-            "description": "Unable to match authid"
+          "200": {
+            "description": "Get stand"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Unable to find stand"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
           }
         }
       },
@@ -210,45 +330,136 @@
         "description": "Create stand",
         "parameters": [
           {
-            "name": "standName",
-            "description": "Name of stand",
-            "in": "query",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Create a new stand",
             "schema": {
               "type": "object",
               "properties": {
                 "standName": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Nom, Nom, Nom"
                 },
                 "dayLength": {
-                  "example": "any"
+                  "type": "number",
+                  "example": 60
                 },
                 "add": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "on"
                 },
                 "sub": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "on"
                 },
                 "mul": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 },
                 "div": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 }
-              }
+              },
+              "required": [
+                "standName",
+                "dayLength",
+                "add",
+                "sub",
+                "mul",
+                "div"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Stand created"
+          },
+          "400": {
+            "description": "Bad request, make sure inputs are strings"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "500": {
+            "description": "Something went wrong creating the stand, it must be the zombie apocalypse"
+          }
+        }
+      },
+      "put": {
+        "description": "Update stand information",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Update stand",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "addCount": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "addCorrect": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "subCount": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "subCorrect": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "mulCount": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "mulCorrect": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "divCount": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "divCorrect": {
+                  "type": "string",
+                  "example": "0"
+                }
+              },
+              "required": [
+                "addCount",
+                "addCorrect",
+                "subCount",
+                "subCorrect",
+                "mulCount",
+                "mulCorrect",
+                "divCount",
+                "divCorrect"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Bad request, make sure inputs are strings"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Unable to find stand"
           },
           "500": {
-            "description": "Something went wrong creating the stand"
+            "description": "Something went wrong updating the stand, it must be the zombie apocalypse"
           }
         }
       }
@@ -265,128 +476,244 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Unable to match authid"
+          "200": {
+            "description": "Get stand"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Unable to find stand"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
           }
         }
-      }
-    },
-    "/stands/put/{id}": {
-      "post": {
-        "description": "Update stand information",
+      },
+      "delete": {
+        "description": "Delete stand",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The stand was deleted"
           },
-          {
-            "name": "stand",
-            "description": "Name of stand",
-            "in": "query",
-            "type": "string"
+          "401": {
+            "description": "Unauthorized access"
           },
-          {
-            "name": "day",
-            "description": "Number of days played",
-            "in": "query",
-            "type": "string"
+          "404": {
+            "description": "Unable to find stand"
           },
-          {
-            "name": "earnings",
-            "description": "Earnings to date",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "addCount",
-            "description": "Number of addtion questions asked",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "addCorrect",
-            "description": "Number of addtion questions answered correctly",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "subCount",
-            "description": "Number of subtration questions asked",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "subCorrect",
-            "description": "Number of subtraction questions answered correctly",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "mulCount",
-            "description": "Number of multiplication questions asked",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "mulCorrect",
-            "description": "Number of multiplication questions answered correctly",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "divCount",
-            "description": "Number of division questions asked",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "divCorrect",
-            "description": "Number of division questions answered correctly",
-            "in": "query",
-            "type": "string"
-          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
+          }
+        }
+      }
+    },
+    "/stands/put": {
+      "post": {
+        "description": "Update stand information",
+        "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Update stand",
             "schema": {
               "type": "object",
               "properties": {
                 "addCount": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 },
                 "addCorrect": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 },
                 "subCount": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 },
                 "subCorrect": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 },
                 "mulCount": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 },
                 "mulCorrect": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 },
                 "divCount": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 },
                 "divCorrect": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0"
                 }
-              }
+              },
+              "required": [
+                "addCount",
+                "addCorrect",
+                "subCount",
+                "subCorrect",
+                "mulCount",
+                "mulCorrect",
+                "divCount",
+                "divCorrect"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Bad request, make sure inputs are strings"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Unable to find stand"
           },
           "500": {
-            "description": "Something went wrong trying to update the stand"
+            "description": "Something went wrong updating the stand, it must be the zombie apocalypse"
+          }
+        }
+      }
+    },
+    "/leaders/": {
+      "post": {
+        "description": "Create board",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The board was created"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Unable to find board"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete board",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The board was deleted"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Unable to find board"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
+          }
+        }
+      }
+    },
+    "/statistics/": {
+      "post": {
+        "description": "Create statistic",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "op can be add, sub, mul, or div",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "op": {
+                  "type": "string",
+                  "example": "add"
+                },
+                "count": {
+                  "type": "string",
+                  "example": "10"
+                },
+                "correct": {
+                  "type": "string",
+                  "example": "10"
+                }
+              },
+              "required": [
+                "op",
+                "count",
+                "correct"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The stat was created"
+          },
+          "400": {
+            "description": "Bad request, make sure inputs are strings"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete statistic",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "id to lookup",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "authid": {
+                  "type": "string",
+                  "example": "oauth-rubric"
+                }
+              },
+              "required": [
+                "authid"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The stat was deleted"
+          },
+          "400": {
+            "description": "Bad request, make sure inputs are strings"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Unable to find stat"
+          },
+          "500": {
+            "description": "Undocumented error, are you certain you're logged in?"
           }
         }
       }

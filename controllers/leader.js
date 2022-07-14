@@ -1,7 +1,7 @@
 /***************************************
  * Leadercontroller
  * 
- * TODO: add description
+ * Mange front page leader board
  */
 
 // includes ...
@@ -12,7 +12,6 @@ const ApiError = require( '../errors/ApiError' );
 
 /***************************************
  * TODO: query leader-board collection and return all documents
- * 
 ***************************************/
 const getLeaders = async ( req, res ) => {
     console.log( "Debug: getLeader()" );
@@ -26,18 +25,15 @@ const getLeaders = async ( req, res ) => {
             console.log( "Fatal Error =", err );
         }
         else {
-            // chickenNoodleS0upwiththes@daontheside
-
-
             res.render( 'index', { test: "TEST", user: {name: "TEST OBJECT"}, leaders: result[0].board });
         }
     });
 };
 
 /***************************
-// TODO: add description
+// Update the leader board
 ****************************/
-const updateBoard = async  ( authid, day, earnings ) => {
+const updateBoard = async  ( authid, stand, day, earnings ) => {
 
     console.log( "Debug: updateBoard()" );
     // res.send( "updateBoard() called" );
@@ -52,7 +48,7 @@ const updateBoard = async  ( authid, day, earnings ) => {
         // 2. add new stat (look for same authid)
         const score = { 
             authid: authid,
-            // TODO: add stand name ...
+            stand: stand,
             day: day,
             earnings: earnings
         };
@@ -75,7 +71,7 @@ const updateBoard = async  ( authid, day, earnings ) => {
 
         // 3. sort
 
-        // 4. delete current board
+        // 4. delete current board ??
         
         // 5. save new board (to 10)
         console.log( "Updated board", result );
@@ -85,53 +81,102 @@ const updateBoard = async  ( authid, day, earnings ) => {
     .catch ( err => {
         console.log( "Fatal Error =", err);
     });        
-
-/*
-    mongodb.getDb().db().collection( 'leader_board' ).find({}).toArray( function( err, result ) {
-        console.log( "leaders=", result ); // array of objects
-
-        // TODO: can I just access object without converting to array???
-        if( err ) {
-            console.log( "Fatal Error =", err );
-        }
-        else {
-            // 2. add new stat (look for same authid)
-            const score = { 
-                authid: authid,
-                day: day,
-                earnings: earnings
-            };
-
-            console.log( "score=", score);
-
-            let onboard = false;
-            // check for matching authid
-            for ( let i = 0; i < result.length; i++ ) {
-                console.log( `Leader: ${i}: result1 ${result[i].board.authid} == result2 ${authid}` );
-                if ( result[i].board.authid == authid ) {
-                    result[i].board = score;
-                    onboard = true;
-                    console.log( "onboard = true");
-                }
-            }
-            // add score if user isn't already on the board
-            if ( !onboard ) {
-                console.log('push...');
-                result.push( score );
-            }
-
-            console.log( result );
-            // 3. sort
-
-            // 4. delete current board
-            
-            // 5. save new board (to 10)
-            console.log( "Updated board", result );
-
-            //mongodb.getDb().db().collection( 'leader_board' ).updateOne( { _id: result[0]._id }, { $set: { board: result }});            
-        }
-    });
-*/
 };
 
-module.exports = { getLeaders, updateBoard };
+/***************************
+// POST board
+
+{"_id":{"$oid":"62b41fdbb43b6e0bdf85695f"},"board":[{"authid":"auth0|62a0d6a5721721d661982d07","day":{"$numberInt":"22"},"earnings":{"$numberInt":"384"}}]}
+
+****************************/
+const createBoard = async ( req, res ) => {
+    /*
+        #swagger.description = 'Create board
+        #swagger.responses[201] = { description: 'The board was created' }
+        #swagger.responses[401] = { description: 'Unauthorized access' }
+        #swagger.responses[404] = { description: 'Unable to find board' }
+        #swagger.responses[500] = { description: 'Undocumented error, are you certain you\'re logged in?' }
+    */
+    console.log( "Debug: createBoard()" );
+       
+    const authid = req.oidc.user.sub; // authenticated id
+
+    if ( authid ) {
+
+        await mongodb.getDb().db().collection( 'stands' ).find({}).toArray()
+        .then( async result => {
+            console.log( result );
+            res.sendStatus( 200 );
+            let board = []; // empty array
+            let score = {}; // empty object
+            // loop stands and create an object 
+/*            for ( ... ) {
+                // get data from each to create object
+                score = { 
+                    authid: authid,
+                    stand: stand,
+                    day: day,
+                    earnings: earnings
+                }; 
+                
+                board.push( score );
+            }
+
+            // insert board
+            await mongodb.getDb().db().collection( 'leader_board' ).insertOne( { board: board } );
+*/
+        })
+        .catch ( err => {
+            console.log( "Fatal Error =", err);
+        });   
+    }
+    else {
+        console.log( err );
+        next ( ApiError.unauthorized( "Error: missing authid" )); // 401
+    }       
+};
+
+
+
+/***************************
+// DELETE board
+****************************/
+const deleteBoard = async ( req, res ) => {
+    /*
+        #swagger.description = 'Delete board
+        #swagger.responses[200] = { description: 'The board was deleted' }
+        #swagger.responses[401] = { description: 'Unauthorized access' }
+        #swagger.responses[404] = { description: 'Unable to find board' }
+        #swagger.responses[500] = { description: 'Undocumented error, are you certain you\'re logged in?' }
+    */
+    console.log( "Debug: deleteBoard()" );
+
+    const authid = req.oidc.user.sub; // authenticated id
+
+    // 
+    if ( authid ) {
+        // use then/catch for asynchronous code
+        await mongodb.getDb().db().collection( 'leader_board' ).deleteMany({ })
+        .then ( result => {
+            console.log( "Deleted board = ", result );
+
+            if ( result.deletedCount == 0 ) {
+                res.sendStatus( 404 );
+            }
+            else {
+                res.setHeader( 'Content-Type', 'application/json' );
+                res.status( 201 ).json( result );
+            }
+        })
+        .catch ( err => {
+            next( ApiError.internalServerError( 'An error occurred while deleting the stand, it must be the zombie apocalypse' )); // 500
+        });
+    }
+    else {
+        console.log( err );
+        next ( ApiError.unauthorized( "Error: missing authid" )); // 401
+    }        
+};
+
+
+module.exports = { getLeaders, updateBoard, createBoard, deleteBoard };
