@@ -165,6 +165,17 @@ const deleteStatistics = async ( authid ) => {
     });
 };
 
+/*******************************
+* VALIDATION
+* https://joi.dev/api/?v=17.6.0
+*******************************/
+function validateUpdate( role ) {
+    const schema = Joi.object({
+        userid: Joi.string().required()
+    });
+
+    return schema.validate( role );
+}
 
 /*
 const isAdmin = async ( req, res ) => {
