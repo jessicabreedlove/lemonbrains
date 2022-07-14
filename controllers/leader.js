@@ -6,7 +6,7 @@
 
 // includes ...
 const mongodb = require( '../db/connect' );
-// const Joi = require( 'joi' );
+const Joi = require( 'joi' );
 const ApiError = require( '../errors/ApiError' );
 
 
@@ -14,11 +14,11 @@ const ApiError = require( '../errors/ApiError' );
  * TODO: query leader-board collection and return all documents
 ***************************************/
 const getLeaders = async ( req, res ) => {
-    console.log( "Debug: getLeader()" );
+    console.log( "Debug: getLeaders()" );
     //res.send( "createLeader() called" ); 
 
     mongodb.getDb().db().collection( 'leader_board' ).find({}).toArray( function( err, result ) {
-        console.log( "HOME leader board=", result[0].board ); // array of objects
+        console.log( "leader board=", result[0].board ); // array of objects
 
         // TODO: can I just access object without converting to array???
         if ( err ) {
@@ -89,9 +89,9 @@ const updateBoard = async  ( authid, stand, day, earnings ) => {
 {"_id":{"$oid":"62b41fdbb43b6e0bdf85695f"},"board":[{"authid":"auth0|62a0d6a5721721d661982d07","day":{"$numberInt":"22"},"earnings":{"$numberInt":"384"}}]}
 
 ****************************/
-const createBoard = async ( req, res ) => {
+const createBoard = async ( req, res, next ) => {
     /*
-        #swagger.description = 'Create board
+        #swagger.description = 'Create board with hard coded _id, safe for testing
         #swagger.responses[201] = { description: 'The board was created' }
         #swagger.responses[401] = { description: 'Unauthorized access' }
         #swagger.responses[404] = { description: 'Unable to find board' }
@@ -103,12 +103,65 @@ const createBoard = async ( req, res ) => {
 
     if ( authid ) {
 
+          // JOIN two tables https://hevodata.com/learn/mongodb-join-two-collections/
+          await mongodb.getDb().db().collection('stands').aggregate([
+              {
+                $match: {
+                  authid: authid,
+                },
+              },
+              {
+                $lookup: {
+                  from: 'users', // second collection
+                  localField: 'authid',
+                  foreignField: 'authid',
+                  as: 'userstand', // new collection
+                },
+              },
+            ])
+            .toArray()
+            .then ( result => {
+                // throw new Error("Intentional error");
+                console.log( result );
+                if (result.length > 0) {
+
+                    let board = []; // empty array
+                    let score = {}; // empty object
+
+                    for ( let i = 0; i < result.length; i++ ) {
+
+                        // create object
+                        // add to board
+
+                        console.log( 'standName and user admin status: ', result[i].standName, result[i].day, result[i].earnings );
+                    }
+
+                    // save board
+                    mongodb.getDb().db().collection( 'leader_board' ).insertOne( { "_id" : "TEST" } );
+                    // await mongodb.getDb().db().collection( 'leader_board' ).insertOne( { "_id" : "TEST", board: board } );
+                    
+                    res.sendStatus( 200 );
+                  }
+                  else {
+                    // TODO: invalid id
+                    next( ApiError.notFound('The id you requested was not found' )); // 404
+                  }            })
+            .catch ( err => {
+                // handle db related errors
+                console.log( err );
+                // res.status( 500 ).json( err || 'An error occurred while getting users.' );
+                next( ApiError.internalServerError( err )); // 500
+            });
+
+/*
         await mongodb.getDb().db().collection( 'stands' ).find({}).toArray()
         .then( async result => {
             console.log( result );
             res.sendStatus( 200 );
             let board = []; // empty array
             let score = {}; // empty object
+            await mongodb.getDb().db().collection( 'leader_board' ).insertOne( { "_id" : "TEST" } );
+
             // loop stands and create an object 
 /*            for ( ... ) {
                 // get data from each to create object
@@ -123,12 +176,12 @@ const createBoard = async ( req, res ) => {
             }
 
             // insert board
-            await mongodb.getDb().db().collection( 'leader_board' ).insertOne( { board: board } );
-*/
+            await mongodb.getDb().db().collection( 'leader_board' ).insertOne( { "_id" : ObjectId("TEST"), board: board } );
+* /
         })
         .catch ( err => {
             console.log( "Fatal Error =", err);
-        });   
+        });   */
     }
     else {
         console.log( err );
@@ -143,8 +196,8 @@ const createBoard = async ( req, res ) => {
 ****************************/
 const deleteBoard = async ( req, res ) => {
     /*
-        #swagger.description = 'Delete board
-        #swagger.responses[200] = { description: 'The board was deleted' }
+        #swagger.description = 'Delete board with hard coded _id, safe for testing
+        #swagger.responses[201] = { description: 'The board was deleted' }
         #swagger.responses[401] = { description: 'Unauthorized access' }
         #swagger.responses[404] = { description: 'Unable to find board' }
         #swagger.responses[500] = { description: 'Undocumented error, are you certain you\'re logged in?' }
@@ -156,7 +209,7 @@ const deleteBoard = async ( req, res ) => {
     // 
     if ( authid ) {
         // use then/catch for asynchronous code
-        await mongodb.getDb().db().collection( 'leader_board' ).deleteMany({ })
+        await mongodb.getDb().db().collection( 'leader_board' ).deleteOne({ _id: "TEST" })
         .then ( result => {
             console.log( "Deleted board = ", result );
 

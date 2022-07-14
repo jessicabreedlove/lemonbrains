@@ -41,7 +41,7 @@ const updateStat = async ( update ) => {
 ****************************/
 const createStat = async ( req, res ) => {
     /*
-    #swagger.description = 'Create statistic'
+    #swagger.description = 'Create statistic with hard coded authid, safe for testing'
     #swagger.responses[201] = { description: 'The stat was created' }
     #swagger.responses[400] = { description: 'Bad request, make sure inputs are strings' }
     #swagger.responses[401] = { description: 'Unauthorized access' }
@@ -107,8 +107,8 @@ const createStat = async ( req, res ) => {
 ****************************/
 const deleteStat = async ( req, res ) => {
     /*
-    #swagger.description = 'Delete statistic'
-    #swagger.responses[200] = { description: 'The stat was deleted' }
+    #swagger.description = 'Delete statistic with hard coded authid, safe for testing'
+    #swagger.responses[201] = { description: 'The stat was deleted' }
     #swagger.responses[400] = { description: 'Bad request, make sure inputs are strings' }
     #swagger.responses[401] = { description: 'Unauthorized access' }
     #swagger.responses[404] = { description: 'Unable to find stat' }

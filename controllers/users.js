@@ -6,7 +6,7 @@
 
 // includes ...
 const mongodb = require( '../db/connect' );
-// const Joi = require( 'joi' );
+const Joi = require( 'joi' );
 const ApiError = require( '../errors/ApiError' );
 
 /***************************
@@ -105,9 +105,9 @@ const createUser = async ( req, res, next ) => {
     if ( authid ) {
         
         // VALIDATION
-        const { error } = validateCreate( req.body );
+        const { error } = validateUser( req.body );
 
-        if ( error ) {
+        if( error ) {
             next( ApiError.badRequest( 'Invalid user data: ' + error.details[0].message ));
             return;
         }
@@ -126,8 +126,8 @@ const createUser = async ( req, res, next ) => {
     
         // add user to collection
         await mongodb.getDb().db().collection( 'users' ).insertOne( user )
-        .then (result => {
-            if ( result.acknowledged ) {
+        .then( result => {
+            if( result.acknowledged ) {
                 console.log( result ); // 
             }
             else {
@@ -141,7 +141,7 @@ const createUser = async ( req, res, next ) => {
     }
     else {
         console.log( err );
-        next ( ApiError.unauthorized( "Error: missing authid" )); // 401
+        next( ApiError.unauthorized( "Error: missing authid" )); // 401
     }
 };
 
@@ -172,6 +172,15 @@ const updateUser = async ( req, res, next ) => {
     const authid = req.oidc.user.sub; // authenticated id
 
     if ( authid ) {
+
+        // VALIDATION
+        const { error } = validateUser( req.body );
+
+        if ( error ) {
+            next( ApiError.badRequest( 'Invalid user data: ' + error.details[0].message ));
+            return;
+        }
+
         const { dayLength, add, sub, mul, div } = req.body;
 
         const update = { $set: {
@@ -207,7 +216,7 @@ const updateUser = async ( req, res, next ) => {
 const deleteUser = async ( req, res ) => {
     /*
     #swagger.description = 'Delete user
-    #swagger.responses[200] = { description: 'The user was deleted' }
+    #swagger.responses[201] = { description: 'The user was deleted' }
     #swagger.responses[401] = { description: 'Unauthorized access' }        
     #swagger.responses[404] = { description: 'Unable to find user' }
     #swagger.responses[500] = { description: 'Undocumented error, are you certain you\'re logged in?' }
@@ -242,5 +251,22 @@ const deleteUser = async ( req, res ) => {
     }   
 };
 
+
+/*******************************
+ * VALIDATION
+ * https://joi.dev/api/?v=17.6.0
+ *******************************/
+ function validateUser( user ) {
+    const schema = Joi.object({
+      dayLength: Joi.string().required(),
+      add: Joi.string(),
+      sub: Joi.string(),
+      mul: Joi.string(),
+      div: Joi.string(),
+      standName: Joi.string() // may be in request when creating a stand
+    });
+  
+    return schema.validate( user );
+  }
 
 module.exports = { getUsers, getUser, createUser, updateUser, deleteUser };

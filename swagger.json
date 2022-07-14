@@ -5,10 +5,10 @@
     "description": "Amazing fusion of a lemonade stand and a zombie apocalypse",
     "version": "1.0.0"
   },
-  "host": "lemonbrains.herokuapp.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/": {
@@ -94,11 +94,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "The user, stand and related statistics were deleted"
-          },
           "201": {
-            "description": "Created"
+            "description": "The user, stand and related statistics were deleted"
           },
           "401": {
             "description": "Unauthorized access"
@@ -234,7 +231,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "The user was deleted"
           },
           "401": {
@@ -342,8 +339,8 @@
                   "example": "Nom, Nom, Nom"
                 },
                 "dayLength": {
-                  "type": "number",
-                  "example": 60
+                  "type": "string",
+                  "example": "60"
                 },
                 "add": {
                   "type": "string",
@@ -595,7 +592,7 @@
     },
     "/leaders/": {
       "post": {
-        "description": "Create board",
+        "description": "Create board with hard coded _id, safe for testing",
         "parameters": [],
         "responses": {
           "201": {
@@ -613,10 +610,10 @@
         }
       },
       "delete": {
-        "description": "Delete board",
+        "description": "Delete board with hard coded _id, safe for testing",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": "The board was deleted"
           },
           "401": {
@@ -633,7 +630,7 @@
     },
     "/statistics/": {
       "post": {
-        "description": "Create statistic",
+        "description": "Create statistic with hard coded authid, safe for testing",
         "parameters": [
           {
             "name": "body",
@@ -679,7 +676,7 @@
         }
       },
       "delete": {
-        "description": "Delete statistic",
+        "description": "Delete statistic with hard coded authid, safe for testing",
         "parameters": [
           {
             "name": "body",
@@ -701,6 +698,9 @@
         ],
         "responses": {
           "200": {
+            "description": "OK"
+          },
+          "201": {
             "description": "The stat was deleted"
           },
           "400": {

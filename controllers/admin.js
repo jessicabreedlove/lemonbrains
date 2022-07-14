@@ -103,7 +103,7 @@ const updateRole = async ( req, res, next ) => {
 const deleteUser = async ( req, res ) => {
     /*
     #swagger.description = 'Delete user, stand, and related statistics'
-    #swagger.responses[200] = { description: 'The user, stand and related statistics were deleted' }
+    #swagger.responses[201] = { description: 'The user, stand and related statistics were deleted' }
     #swagger.responses[401] = { description: 'Unauthorized access' }
     #swagger.responses[404] = { description: 'Unable to find user' }
     #swagger.responses[500] = { description: 'Undocumented error, are you certain you\'re logged in?' }
@@ -116,7 +116,7 @@ const deleteUser = async ( req, res ) => {
         const userid = req.params.id; // id of the user to delete
 
         // use then/catch for asynchronous code
-        await mongodb.getDb().db().collection( 'users' ).deleteOne({ authid: userid })
+        await mongodb.getDb().db().collection( 'users' ).deleteMany({ authid: userid })
         .then ( result => {
             console.log( "Deleted user = ", result );
 
@@ -143,7 +143,7 @@ const deleteUser = async ( req, res ) => {
 
 // delete stand
 const deleteStand = async ( authid ) => {
-    await mongodb.getDb().db().collection( 'stands' ).deleteOne({ authid: authid })
+    await mongodb.getDb().db().collection( 'stands' ).deleteMany({ authid: authid })
     .then ( result => {
         console.log( `Deleting Stand with authid: ${authid}` );
     })

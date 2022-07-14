@@ -91,7 +91,7 @@ const getStand = async (req, res, next) => {
                     earnings: result[0].earnings,
                     admin: result[0].userstand[0].admin,
                   });
-                  next();
+                  // next();
                 } else {
                   // TODO: invalid id
                   next(ApiError.notFound('The id you requested was not found')); // 404
@@ -134,7 +134,7 @@ const createStand = async (req, res, next) => {
                 description: 'Create a new stand',
                 schema: {
                     $standName: 'Nom, Nom, Nom',
-                    $dayLength: 60,
+                    $dayLength: '60',
                     $add: 'on',
                     $sub: 'on',
                     $mul: '0',
@@ -147,11 +147,11 @@ const createStand = async (req, res, next) => {
   // 1. get auth info from request
   const authid = req.oidc.user.sub;
 
-  if (authid) {
+  if ( authid ) {
     // VALIDATION
     const { error } = validateCreate(req.body);
 
-    if (error) {
+    if ( error ) {
       next(
         ApiError.badRequest('Invalid stand data: ' + error.details[0].message)
       );
@@ -162,7 +162,7 @@ const createStand = async (req, res, next) => {
     console.log('req.body=', standName, dayLength, add, sub, mul, div);
 
     // 2. create user ... call createUser()
-    await usersController.createUser(req, res, next);
+    await usersController.createUser( req, res, next );
 
     // 3. construct an object
     const stand = {
@@ -188,7 +188,7 @@ const createStand = async (req, res, next) => {
           // set up
           const operations = ['add', 'sub', 'mul', 'div'];
           operations.forEach(async (op) => {
-            console.log(op);
+            console.log( "creating ... " + op );
             // define new stat
             let stat = {
               authid: authid,
@@ -204,7 +204,7 @@ const createStand = async (req, res, next) => {
 
           // redirect to new stand
           // ... on click, matching stand should be found and displayed
-          getStand(req, res, next);
+          getStand( req, res, next );
         } else {
           next(
             ApiError.internalServerError(
@@ -514,6 +514,10 @@ function validateCreate(stand) {
   const schema = Joi.object({
     standName: Joi.string().required(),
     dayLength: Joi.string().required(),
+    add: Joi.string(),
+    sub: Joi.string(),
+    mul: Joi.string(),
+    div: Joi.string()
   });
 
   return schema.validate(stand);
