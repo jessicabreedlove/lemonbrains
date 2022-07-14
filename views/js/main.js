@@ -54,8 +54,11 @@ function main() {
   });
 
   document.getElementById('next-day').addEventListener('click', () => {
-    let numberOfDay = readFromLS('numberOfDay');
+    console.log('Starting next day');
+    let numberOfDay = Number(readFromLS('numberOfDay'));
+    console.log(`The day was: ${numberOfDay}`);
     numberOfDay += 1;
+    console.log(`The day is now: ${numberOfDay}`);
     writeToLS('numberOfDay', numberOfDay);
     document.getElementById('end-of-day-div').style.display = 'none';
     game.create();
@@ -84,8 +87,35 @@ function checkSavedData() {
 }
 
 function saveAndQuit() {
+  let day = document.getElementById('number-of-days').innerHTML;
+  writeToLS('numberOfDay', day);
+
+  // const apiPage = readFromLS('apiPage');
+  // location.href = apiPage;
+
+  updateDatabase();
+}
+
+function updateDatabase() {
   const apiPage = readFromLS('apiPage');
-  location.href = apiPage;
+  const url = apiPage + 'stands/put';
+
+  let jsonData = {
+    addCount: '5',
+    addCorrect: '0',
+    subCount: '0',
+    subCorrect: '0',
+    mulCount: '0',
+    mulCorrect: '0',
+    divCount: '0',
+    divCorrect: '0',
+  };
+
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open('POST', 'https://lemonbrains.herokuapp.com/stands/put');
+  xhttp.setRequestHeader('Content-type', 'application/json');
+  xhttp.send(jsonData);
 }
 
 main();

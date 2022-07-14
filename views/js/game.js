@@ -32,6 +32,8 @@ export default class Game {
       numberOfDay = 1;
     }
 
+    console.log(`The day is: ${numberOfDay}`);
+
     this.day = new Day();
     this.day.initialize(numberOfDay);
 

@@ -1,5 +1,8 @@
 import { readFromLS, writeToLS } from './utilities/localStorage.js';
 
+// First, let's load any of the locally stored data
+loadLocallyStoredData();
+
 document.getElementById('play-game-button').addEventListener('click', () => {
   onClickPlayGame();
 });
@@ -35,4 +38,9 @@ function saveUserDataToBrowser() {
 async function onClickPlayGame() {
   await saveUserDataToBrowser();
   location.href = 'game.html';
+}
+
+function loadLocallyStoredData() {
+  const day = readFromLS('numberOfDay');
+  document.getElementById('day-input').value = day;
 }
