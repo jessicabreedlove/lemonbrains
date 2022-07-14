@@ -4,6 +4,8 @@ import LemonadeStand from './sprites/lemonade-stand.js';
 import { readFromLS, writeToLS } from './utilities/localStorage.js';
 
 function main() {
+  console.log(`Add count is: ${readFromLS('addCount')}`);
+
   // Set the number of day
   let numberOfDay = readFromLS('numberOfDay');
 
@@ -90,32 +92,8 @@ function saveAndQuit() {
   let day = document.getElementById('number-of-days').innerHTML;
   writeToLS('numberOfDay', day);
 
-  // const apiPage = readFromLS('apiPage');
-  // location.href = apiPage;
-
-  updateDatabase();
-}
-
-function updateDatabase() {
   const apiPage = readFromLS('apiPage');
-  const url = apiPage + 'stands/put';
-
-  let jsonData = {
-    addCount: '5',
-    addCorrect: '0',
-    subCount: '0',
-    subCorrect: '0',
-    mulCount: '0',
-    mulCorrect: '0',
-    divCount: '0',
-    divCorrect: '0',
-  };
-
-  const xhttp = new XMLHttpRequest();
-
-  xhttp.open('POST', 'https://lemonbrains.herokuapp.com/stands/put');
-  xhttp.setRequestHeader('Content-type', 'application/json');
-  xhttp.send(jsonData);
+  location.href = apiPage;
 }
 
 main();

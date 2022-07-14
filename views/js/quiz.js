@@ -1,4 +1,4 @@
-import { readFromLS } from './utilities/localStorage.js';
+import { readFromLS, writeToLS } from './utilities/localStorage.js';
 
 export default class Quiz {
   DIFFICULTY = 'easy';
@@ -127,6 +127,17 @@ export default class Quiz {
     let answer = this.generateAnswer();
 
     if (userAnswer == answer) {
+      const operator = document.getElementById('operator').innerHTML;
+      console.log(`The operator is: ${operator}`);
+      if (operator == '+') {
+        console.log('Adding to count');
+        this.incrementAddCount();
+      } else if (operator == '-') {
+        this.incrementSubCount();
+      } else if (operator == 'x') {
+        this.incrementMulCount();
+      }
+
       document.getElementById('answer').value = '';
       document.getElementById('answer').classList.remove('answer-incorrect');
       document.getElementById('answer').classList.add('answer-correct');
@@ -147,5 +158,24 @@ export default class Quiz {
       document.getElementById('answer').value = '';
       this.createQuestion(zombieFactory);
     }, 1500);
+  }
+
+  incrementAddCount() {
+    let addCount = Number(readFromLS('addCount'));
+    addCount++;
+    writeToLS('addCount', addCount);
+  }
+
+  incrementSubCount() {
+    let subCount = Number(readFromLS('subCount'));
+    subCount++;
+    writeToLS('subCount', subCount);
+  }
+
+  incrementMulCount() {
+    let mulCount = Number(readFromLS('mulCount'));
+    mulCount++;
+    console.log(`The add count is now: ${mulCount}`);
+    writeToLS('mulCount', mulCount);
   }
 }

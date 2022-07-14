@@ -29,7 +29,6 @@
     <div class="game-content">
 
         <div class="main-menu-buttons">
-            <a class="link-button" href="./game.html">Play game</a>
             <button id="play-game-button">Play Game</button>
         </div>
     
@@ -232,53 +231,53 @@
         <div class="main-menu-buttons lemon" style="margin-top: 20px;">
 
             <!-- The hidden inputs -->
-            <!-- <input id="day-input" name="authid" type="input" value="<%= day %>" hidden> -->
+            <input id="day-input" name="authid" type="input" value="<%= day %>" hidden>
             <input id="earnings-input" name="authid" type="input" value="<%= earnings %>" hidden>
 
             <form action="/stands/put" method="POST" class="lemon-brains-form">
                 <!-- <h2><%= stand %> day: <%= day %> | earnings: <%= earnings %></h2> -->
-                <label for="authid">authid:
+                <!-- <label for="authid">authid:
                     <input id="authid" name="authid" type="input" value="<%= authid %>">
-                </label>
+                </label> -->
                 Day is incremented on each game over, earnings are calculated based on number and type of questions answered correctly
                 <br>
                 <h2>Addition</h2>
                 <label for="addCount">Count:
-                    <input id="addCount" name="addCount" type="input" value="2">
+                    <input id="addCount" name="addCount" type="input" value="0">
                 </label>
                 <br>
                 <label for="addCorrect">Correct:
-                    <input id="addCorrect" name="addCorrect" type="input" value="2">
+                    <input id="addCorrect" name="addCorrect" type="input" value="0">
                 </label>
                 <br>
                 <h2>Subtraction</h2>
                 <label for="subCount">Count:
-                    <input id="subCount" name="subCount" type="input" value="3">
+                    <input id="subCount" name="subCount" type="input" value="0">
                 </label>
                 <br>
                 <label for="subCorrect">Correct:
-                    <input id="subCorrect" name="subCorrect" type="input" value="1">
+                    <input id="subCorrect" name="subCorrect" type="input" value="0">
                 </label>
                 <br>
                 <h2>Multiplication</h2>
                 <label for="mulCount">Count:
-                    <input id="mulCount" name="mulCount" type="input" value="5">
+                    <input id="mulCount" name="mulCount" type="input" value="0">
                 </label>
                 <br>
                 <label for="mulCorrect">Correct:
-                    <input id="mulCorrect" name="mulCorrect" type="input" value="5">
+                    <input id="mulCorrect" name="mulCorrect" type="input" value="0">
                 </label>
                 <br>
                 <h2>Division</h2>
                 <label for="divCount">Count:
-                    <input id="divCount" name="divCount" type="input" value="">
+                    <input id="divCount" name="divCount" type="input" value="0">
                 </label>
                 <br>
                 <label for="divCorrect">Correct:
-                    <input id="divCorrect" name="divCorrect" type="input" value="">
+                    <input id="divCorrect" name="divCorrect" type="input" value="0">
                 </label>
                 <br><br>
-                <input id="day-input" type="hidden" name="day" value="<%= day %>">
+                <!-- <input id="day-input" type="hidden" name="day" value="<%= day %>"> -->
                 <input type="Submit" value="Game over, send updates to server">
                 <br><br>
         
