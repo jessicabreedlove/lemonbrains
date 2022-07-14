@@ -5,7 +5,7 @@ document.getElementById('play-game-button').addEventListener('click', () => {
 });
 
 function saveUserDataToBrowser() {
-  const day = document.getElementById('day-input').value;
+  let day = document.getElementById('day-input').value;
   const earnings = document.getElementById('earnings-input').value;
   const addCount = document.getElementById('earnings-input').value;
   const addCorrect = document.getElementById('earnings-input').value;
@@ -14,7 +14,14 @@ function saveUserDataToBrowser() {
   const mulCount = document.getElementById('earnings-input').value;
   const mulCorrect = document.getElementById('earnings-input').value;
 
-  writeToLS('day', day);
+  // We also save the browser location so we can navigate back here
+  const apiPage = window.location.href;
+
+  if (day == 0) {
+    day = 1;
+  }
+
+  writeToLS('numberOfDay', day);
   writeToLS('earnings', earnings);
   writeToLS('addCount', addCount);
   writeToLS('addCorrect', addCorrect);
@@ -22,10 +29,10 @@ function saveUserDataToBrowser() {
   writeToLS('subCorrect', subCorrect);
   writeToLS('mulCount', mulCount);
   writeToLS('mulCorrect', mulCorrect);
+  writeToLS('apiPage', apiPage);
 }
 
 async function onClickPlayGame() {
   await saveUserDataToBrowser();
-
   location.href = 'game.html';
 }

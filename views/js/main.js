@@ -61,6 +61,12 @@ function main() {
     game.create();
   });
 
+  document
+    .getElementById('save-and-quit-button')
+    .addEventListener('click', () => {
+      saveAndQuit();
+    });
+
   // Create the lemonade stand
   var lemonadeStand = new LemonadeStand();
 
@@ -75,6 +81,11 @@ function checkSavedData() {
   }
 
   return true;
+}
+
+function saveAndQuit() {
+  const apiPage = readFromLS('apiPage');
+  location.href = apiPage;
 }
 
 main();
