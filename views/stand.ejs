@@ -20,10 +20,6 @@
         </div>
 
         <div class="player-info">
-            <span class="lemon day">
-                Day:
-            </span>
-            <span id="number-of-days" class="number-of-days lemon"></span>
             <!-- <a href="/users/">Go to user settings</a> -->
             <strong><a class="lemon" href="/">Home</a></strong>
             <a class="lemon" href="/logout">Logout</a>  
@@ -34,6 +30,7 @@
 
         <div class="main-menu-buttons">
             <a class="link-button" href="game.html">Play game</a>
+            <button id="play-game-button">Play Game</button>
         </div>
     
         <div class="options-menu" id="options-menu">
@@ -233,6 +230,11 @@
 
         <!-- PLAYER STATS DIV -->
         <div class="main-menu-buttons lemon" style="margin-top: 20px;">
+            
+            <!-- The hidden inputs -->
+            <input id="day-input" name="authid" type="input" value="<%= day %>" hidden>
+            <input id="earnings-input" name="authid" type="input" value="<%= earnings %>" hidden>
+
             <form action="/stands/put" method="POST" class="lemon-brains-form">
                 <h2><%= stand %> day: <%= day %> | earnings: <%= earnings %></h2>
                 <label for="authid">authid:
@@ -298,6 +300,6 @@
     </div>
     
 </body>
-<script src="js/main.js" type="module"></script>
-
+<script src="js/stand.js" type="module"></script>
+<!-- <script src="js/main.js" type="module"></script> -->
 </html>
