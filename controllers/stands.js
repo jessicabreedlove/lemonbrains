@@ -204,7 +204,9 @@ const createStand = async (req, res, next) => {
 
           // redirect to new stand
           // ... on click, matching stand should be found and displayed
-          getStand( req, res, next );
+          // getStand( req, res, next );
+          res.sendStatus( 201 );
+          
         } else {
           next(
             ApiError.internalServerError(
