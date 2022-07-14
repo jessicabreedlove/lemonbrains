@@ -102,7 +102,7 @@ const createBoard = async ( req, res, next ) => {
     const authid = req.oidc.user.sub; // authenticated id
 
     if ( authid ) {
-
+/*
           // JOIN two tables https://hevodata.com/learn/mongodb-join-two-collections/
           await mongodb.getDb().db().collection('stands').aggregate([
               {
@@ -137,7 +137,7 @@ const createBoard = async ( req, res, next ) => {
                     }
 
                     // save board
-                    mongodb.getDb().db().collection( 'leader_board' ).insertOne( { "_id" : "TEST" } );
+                   await mongodb.getDb().db().collection( 'leader_board' ).insertOne( { "_id" : "TEST" } );
                     // await mongodb.getDb().db().collection( 'leader_board' ).insertOne( { "_id" : "TEST", board: board } );
                     
                     res.sendStatus( 200 );
@@ -152,8 +152,8 @@ const createBoard = async ( req, res, next ) => {
                 // res.status( 500 ).json( err || 'An error occurred while getting users.' );
                 next( ApiError.internalServerError( err )); // 500
             });
+*/
 
-/*
         await mongodb.getDb().db().collection( 'stands' ).find({}).toArray()
         .then( async result => {
             console.log( result );
@@ -177,11 +177,11 @@ const createBoard = async ( req, res, next ) => {
 
             // insert board
             await mongodb.getDb().db().collection( 'leader_board' ).insertOne( { "_id" : ObjectId("TEST"), board: board } );
-* /
+*/
         })
         .catch ( err => {
             console.log( "Fatal Error =", err);
-        });   */
+        });
     }
     else {
         console.log( err );
